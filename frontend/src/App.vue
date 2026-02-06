@@ -1,11 +1,13 @@
 <script setup>
 import RandomDog from './components/RandomDog.vue';
+import FavoriteList from './components/FavoriteList.vue';
 </script>
 
 <template>
   <div class="app-container">
     <h1>我的狗狗收藏館 🐕</h1>
     <RandomDog />
+    <FavoriteList />
   </div>
 </template>
 
