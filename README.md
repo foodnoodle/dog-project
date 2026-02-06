@@ -11,11 +11,28 @@
 * **跨網域處理**: 透過 **django-cors-headers** 解決前後端分離產生的 CORS (跨網域資源共享) 問題。
 * **資料庫**: 使用 **SQLite3**，用於儲存圖片網址 (URL) 與建立時間戳記。
 
-| **Git 版本控制 (VS Code Source Control)** | **資料庫視覺化管理 (SQLite Viewer)** |
-|:------:|:------:|
-| <img src="images/git_source_control.png" height="250"> | <img src="images/sqlite_viewer.png" height="250"> |
-| 使用 VS Code 內建的 Source Control 功能進行版本控制，包含檔案變更追蹤、暫存 (stage) 與提交 (commit)。 | 透過 SQLite Viewer 開啟資料庫檔案，瀏覽資料表結構與內容，確認資料正確性。 |
-
+<table width="100%">
+  <thead>
+    <tr>
+      <th width="50%">Git 版本控制 (VS Code Source Control)</th>
+      <th width="50%">資料庫視覺化管理 (SQLite Viewer)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">
+        <img src="images/git_source_control.png" height="350">
+      </td>
+      <td align="center">
+        <img src="images/sqlite_viewer.png" height="350">
+      </td>
+    </tr>
+    <tr>
+      <td>使用 VS Code 內建的 Source Control 功能進行版本控制，包含檔案變更追蹤、暫存 (stage) 與提交 (commit)。</td>
+      <td>透過 SQLite Viewer 開啟資料庫檔案，瀏覽資料表結構與內容，確認資料正確性。</td>
+    </tr>
+  </tbody>
+</table>
 
 
 ### 前端技術 (Frontend)
