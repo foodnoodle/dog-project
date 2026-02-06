@@ -2,20 +2,38 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-// 定義變數
-const dogImage = ref(''); // 存放狗狗圖片網址
+const dogImage = ref('');
 
-// 定義函式：去 Dog CEO API 抓圖片
+// 1. 抓取隨機圖片
 const fetchNewDog = async () => {
   try {
     const response = await axios.get('https://dog.ceo/api/breeds/image/random');
-    dogImage.value = response.data.message; // API 回傳的格式是 { message: "圖片網址", status: "success" }
+    dogImage.value = response.data.message;
   } catch (error) {
-    console.error('發生錯誤:', error);
+    console.error('抓取圖片失敗:', error);
   }
 };
 
-// 組件載入時，先抓一張圖
+// 2. [新增] 收藏圖片到 Django 後端
+const saveDog = async () => {
+  if (!dogImage.value) return; // 如果沒圖片就不執行
+
+  try {
+    // 發送 POST 請求給我們的 Django API
+    const response = await axios.post('http://127.0.0.1:8000/api/dogs/', {
+      url: dogImage.value
+    });
+    
+    // 成功提示 (簡單用 alert，之後可以優化)
+    alert('收藏成功！');
+    console.log('後端回應:', response.data);
+    
+  } catch (error) {
+    console.error('收藏失敗:', error);
+    alert('收藏失敗，請檢查後端伺服器是否開啟。');
+  }
+};
+
 onMounted(() => {
   fetchNewDog();
 });
@@ -32,7 +50,7 @@ onMounted(() => {
 
     <div class="button-group">
       <button @click="fetchNewDog" class="btn-refresh">換一張</button>
-      <button class="btn-save">收藏這張</button> 
+      <button @click="saveDog" class="btn-save">收藏這張</button>
     </div>
   </div>
 </template>

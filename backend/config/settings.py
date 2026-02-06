@@ -125,4 +125,4 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 # 允許所有來源進行跨域請求，開發階段使用。
-CROS_ALLOW_ALL_ORIGINS = True  
+CORS_ALLOW_ALL_ORIGINS = True
