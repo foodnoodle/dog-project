@@ -13,11 +13,28 @@
 * **跨網域處理**: 透過 **django-cors-headers** 解決前後端分離產生的 CORS (跨網域資源共享) 問題。
 * **資料庫**: 使用 **SQLite3**，用於儲存圖片網址 (URL) 與建立時間戳記。
 
-| **Git 版本控制 (VS Code Source Control)** | **資料庫視覺化管理 (SQLite Viewer)** |
-|:------:|:------:|
-| <img src="images/git_source_control.png" height="250"> | <img src="images/sqlite_viewer.png" height="250"> |
-| 使用 VS Code 內建的 Source Control 功能進行版本控制，包含檔案變更追蹤、暫存 (stage) 與提交 (commit)。 | 透過 SQLite Viewer 開啟資料庫檔案，瀏覽資料表結構與內容，確認資料正確性。 |
-
+<table width="100%">
+  <thead>
+    <tr>
+      <th width="50%">Git 版本控制 (VS Code Source Control)</th>
+      <th width="50%">資料庫視覺化管理 (SQLite Viewer)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">
+        <img src="images/git_source_control.png" height="350">
+      </td>
+      <td align="center">
+        <img src="images/sqlite_viewer.png" height="350">
+      </td>
+    </tr>
+    <tr>
+      <td>使用 VS Code 內建的 Source Control 功能進行版本控制，包含檔案變更追蹤、暫存 (stage) 與提交 (commit)。</td>
+      <td>透過 SQLite Viewer 開啟資料庫檔案，瀏覽資料表結構與內容，確認資料正確性。</td>
+    </tr>
+  </tbody>
+</table>
 
 
 ### 前端技術 (Frontend)
@@ -30,11 +47,19 @@
 ## 核心功能
 
 1. **隨機狗狗抽卡 (HomeView)**:
+
+    <img src="https://github.com/user-attachments/assets/b60d6b4e-9a6c-4cde-801e-58ff773a30c1" width="500" alt="隨機抽卡">
+       
 * 從外部 Dog CEO API 獲取即時的隨機狗狗圖片。
+  
+    <img src="https://github.com/user-attachments/assets/d8deb2b4-bd50-4e6a-907b-9c0c24a0f3f9" width="500" alt="隨機抽卡">
+  
 * 提供「收藏這張」功能，透過 `POST` 請求將圖片網址傳送至後端儲存。
 
-
 2. **我的收藏庫 (FavoritesView)**:
+   
+     <img src="https://github.com/user-attachments/assets/fa4a40cd-e1aa-48e0-9cbc-7f61125261c3" width="500" alt="隨機抽卡">
+ 
 * 展示所有儲存於資料庫中的狗狗圖片，預設依據建立時間進行降冪排列（最新收藏的排在最前）。
 * 提供「刪除」功能，可直接從後端資料庫移除指定的收藏項目。
 
