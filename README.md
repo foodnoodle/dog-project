@@ -1,5 +1,3 @@
-![收藏庫](https://github.com/user-attachments/assets/89e90ee6-11e0-4776-9a14-985be3d4d429)# 狗狗收藏館 (Dog Image Collection)
-
 這是一個採用前後端分離架構開發的全棧應用程式，使用者可以瀏覽隨機生成的狗狗圖片，並將心儀的圖片收藏至個人資料庫中。
 
 ## 技術棧 (Tech Stack)
@@ -31,7 +29,7 @@
 
 1. **隨機狗狗抽卡 (HomeView)**:
 
-   <img src="https://github.com/user-attachments/assets/b60d6b4e-9a6c-4cde-801e-58ff773a30c1" width="500" alt="隨機抽卡">
+  <img src="https://github.com/user-attachments/assets/b60d6b4e-9a6c-4cde-801e-58ff773a30c1" width="500" alt="隨機抽卡">
        
 * 從外部 Dog CEO API 獲取即時的隨機狗狗圖片。
   
