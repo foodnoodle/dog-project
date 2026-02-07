@@ -2,6 +2,7 @@
 
 這是一個採用前後端分離架構開發的全棧應用程式，使用者可以瀏覽隨機生成的狗狗圖片，並將心儀的圖片收藏至個人資料庫中。
 
+---
 ## 🚀 技術棧 (Tech Stack)
 
 ### 🐍 後端技術 (Backend)
@@ -20,6 +21,43 @@
 * **前端路由**: **Vue Router 4.6.4**，管理「首頁」與「收藏頁」之間的視圖切換。
 * **HTTP 客戶端**: **Axios 1.13.4**，負責與外部 Dog CEO API 溝通獲取隨機圖片，並與自定義的 Django 後端 API 進行資料同步。
 
+---
+## 🐳 Docker 一鍵啟動 (Docker Quick Start)
+
+本專案支援完全自動化的容器化部署。透過 Docker Compose，您可以跳過繁瑣的 Python 與 Node.js 環境設定，實現「一鍵啟動」完整的開發環境。
+
+### 🖼️ 運行狀態預覽
+<center>
+<img src="images/docker_運作中.png" height="250">
+</center>
+
+> 上圖顯示前後端服務（backend 與 frontend）已成功於 Docker 容器中正常運作。
+
+### 🚀 啟動步驟
+
+1. **確保已安裝 Docker Desktop** 並已啟動。
+2. **開啟終端機** 並進入專案根目錄。
+3. **執行以下指令**：
+```bash
+docker-compose up --build
+```
+
+### ⚙️ 自動化配置細節
+
+* **自動化資料庫遷移**：後端容器啟動時，會自動執行 `python manage.py migrate` 以確保資料庫結構是最新的，隨後才啟動 Django 伺服器。
+* **環境隔離**：
+* **Backend**: 使用 Python 3.14 環境，自動安裝 Django 及其相關 API 套件。
+* **Frontend**: 使用 Node 20 環境，自動執行 `npm install` 並啟動 Vite 開發伺服器。
+
+
+* **開發熱重載 (Hot Reload)**：透過磁碟卷（Volumes）掛載技術，您在本地端修改程式碼後，容器內部會即時同步並更新畫面，無需重啟容器。
+
+### 🔗 服務存取位址
+
+* **前端頁面 (Vue)**：`http://localhost:5173`
+* **後端 API (DRF)**：`http://localhost:8000/api/`
+
+---
 ## 🛠️ 開發工具與視覺化
 
 <table width="100%">
@@ -45,7 +83,7 @@
   </tbody>
 </table>
 
-
+---
 ## 🌟 核心功能
 
 1. **隨機狗狗抽卡 (HomeView)**:
@@ -69,7 +107,7 @@
 3. **響應式網格佈局**:
 * 收藏列表具備響應式設計，能在不同裝置螢幕下自動調整圖片排列順序。
 
-
+---
 ## 📂 專案結構
 
 ```text
@@ -84,6 +122,7 @@ dog-project/
 * **`backend/`**: 包含 Django 的核心配置 (`config/`) 以及 API 應用程式 (`api/`)，定義了 `DogImage` 模型與序列化邏輯。
 * **`frontend/`**: 包含 Vue 應用程式，主要組件位於 `src/components/` (如 `RandomDog.vue`, `FavoriteList.vue`)。
 
+---
 ## 🔗 API 端點 (Django)
 
 * `GET /api/dogs/`: 獲取收藏清單。
