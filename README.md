@@ -72,6 +72,15 @@
 
 ## 📂 專案結構
 
+```text
+dog-project/
+├── backend/        # Django 程式碼
+├── frontend/       # Vue 程式碼
+├── images/         # 截圖存放區
+├── .gitignore
+└── README.md
+```
+
 * **`backend/`**: 包含 Django 的核心配置 (`config/`) 以及 API 應用程式 (`api/`)，定義了 `DogImage` 模型與序列化邏輯。
 * **`frontend/`**: 包含 Vue 應用程式，主要組件位於 `src/components/` (如 `RandomDog.vue`, `FavoriteList.vue`)。
 
