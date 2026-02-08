@@ -118,11 +118,20 @@ docker-compose up --build
 
 ```text
 dog-project/
-├── backend/        # Django 程式碼
-├── frontend/       # Vue 程式碼
-├── images/         # 截圖存放區
-├── .gitignore
-└── README.md
+├── backend/            # Django 後端程式碼 (Python 3.14 + DRF)
+│   ├── api/            # 核心 API 邏輯 (Models, Views, Serializers)
+│   ├── config/         # 專案全域設定
+│   └── pyproject.toml  # uv 套件管理配置
+├── frontend/           # Vue 3 前端程式碼 (Vite 構建)
+│   ├── src/            # 前端源碼 (Components, Views, Router)
+│   └── package.json    # 前端相依性與指令配置
+├── images/             # 專案與教學文件的圖片存儲
+│   ├── Readme_images/  # README 專用截圖
+│   └── Notes_images/   # 教學筆記專用圖片
+├── 筆記/               # 完整的開發教學文件與 Docker 手冊
+├── .gitignore          # Git 忽略清單
+├── docker-compose.yaml # Docker 一鍵啟動配置 (前後端編排)
+└── README.md           # 專案主要說明文件
 ```
 
 * **`backend/`**: 包含 Django 的核心配置 (`config/`) 以及 API 應用程式 (`api/`)，定義了 `DogImage` 模型與序列化邏輯。
