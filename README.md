@@ -33,11 +33,12 @@
 
 ### 🖼️ 運行狀態預覽
 
-|||
-|:---:|:---:|
-<img src="images/Readme_images/docker_運作中.png" height="250">|<img src="images/Readme_images/Docker_Desktop.png" height="250">
+| 終端機運作日誌 (CLI Logs) | Docker Desktop 視覺化管理 |
+| :---: | :---: |
+| <img src="images/Readme_images/docker_運作中.png" height="280"> | <img src="images/Readme_images/Docker_Desktop.png" height="280"> |
+| **前後端同步啟動**：顯示 Django 與 Vite 服務已就緒並支援熱重載 | **容器狀態確認**：`backend` 與 `frontend` 服務皆呈現「Running」綠燈狀態 |
 
-> 上圖顯示前後端服務（backend 與 frontend）已成功於 Docker 容器中正常運作。
+> **說明**：本專案透過 Docker Compose 實現環境隔離，確保開發者在任何作業系統上都能獲得一致的執行結果。
 
 ### 🚀 啟動步驟
 
@@ -69,8 +70,8 @@ docker-compose up --build
 <table width="100%">
   <thead>
     <tr>
-      <th width="50%">Git 版本控制 (VS Code Source Control)</th>
-      <th width="50%">資料庫視覺化管理 (SQLite Viewer)</th>
+      <th width="50%" align="center">Git 版本控制 (VS Code Source Control)</th>
+      <th width="50%" align="center">資料庫視覺化管理 (SQLite Viewer)</th>
     </tr>
   </thead>
   <tbody>
@@ -83,8 +84,8 @@ docker-compose up --build
       </td>
     </tr>
     <tr>
-      <td>使用 VS Code 內建的 Source Control 功能進行版本控制，包含檔案變更追蹤、暫存 (stage) 與提交 (commit)。</td>
-      <td>透過 SQLite Viewer 開啟資料庫檔案，瀏覽資料表結構與內容，確認資料正確性。</td>
+      <td align="center">使用 VS Code 內建的 Source Control 功能進行版本控制，包含檔案變更追蹤、暫存 (stage) 與提交 (commit)。</td>
+      <td align="center">透過 SQLite Viewer 開啟資料庫檔案，瀏覽資料表結構與內容，確認資料正確性。</td>
     </tr>
   </tbody>
 </table>
