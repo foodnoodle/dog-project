@@ -35,7 +35,6 @@ docker exec -it dog-backend bash
 docker exec -it dog-frontend sh
 ```
 
-
 *(進入後，可以像在一般 Linux 環境下執行 `ls`, `cat`, 或 `python manage.py migrate`)*
 * **手動停止/啟動單一容器**
 ```bash
@@ -43,8 +42,6 @@ docker stop dog-backend
 docker start dog-backend
 docker restart dog-backend
 ```
-
-
 
 ### 5.3 映像檔與清理 (Images & Cleanup)
 
@@ -54,7 +51,6 @@ docker restart dog-backend
 ```bash
 docker images
 ```
-
 
 * **刪除特定映像檔**
 ```bash
