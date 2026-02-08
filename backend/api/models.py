@@ -18,6 +18,9 @@ DRF 讀取到 Model 名稱是 DogImage，
 所以它自動加上了 "List"。
 """
 class DogImage(models.Model):
+    # 主鍵，自動遞增整數
+    id = models.AutoField(primary_key=True)
+    
     # 儲存圖片的網址，內建格式驗證，長度上限 500 字元
     url = models.URLField(max_length=500)
 
