@@ -1,8 +1,13 @@
 # 狗狗收藏館 (Dog Image Collection) 🐕
 
-這是一個採用前後端分離架構開發的全棧應用程式，使用者可以瀏覽隨機生成的狗狗圖片，並將心儀的圖片收藏至個人資料庫中。
+<center>
 
----
+<img src="images/Readme_images/Readme封面.png" height="500">
+
+**這是一個採用前後端分離架構開發的全棧應用程式，使用者可以瀏覽隨機生成的狗狗圖片，並將心儀的圖片收藏至個人資料庫中。**
+
+</center>
+
 ## 🚀 技術棧 (Tech Stack)
 
 ### 🐍 後端技術 (Backend)
@@ -27,9 +32,10 @@
 本專案支援完全自動化的容器化部署。透過 Docker Compose，您可以跳過繁瑣的 Python 與 Node.js 環境設定，實現「一鍵啟動」完整的開發環境。
 
 ### 🖼️ 運行狀態預覽
-<center>
-<img src="images/docker_運作中.png" height="250">
-</center>
+
+|||
+|:---:|:---:|
+<img src="images/Readme_images/docker_運作中.png" height="250">|<img src="images/Readme_images/Docker_Desktop.png" height="250">
 
 > 上圖顯示前後端服務（backend 與 frontend）已成功於 Docker 容器中正常運作。
 
@@ -70,10 +76,10 @@ docker-compose up --build
   <tbody>
     <tr>
       <td align="center">
-        <img src="images/git_source_control.png" height="350">
+        <img src="images/Readme_images/git_source_control.png" height="350">
       </td>
       <td align="center">
-        <img src="images/sqlite_viewer.png" height="350">
+        <img src="images/Readme_images/sqlite_viewer.png" height="350">
       </td>
     </tr>
     <tr>
