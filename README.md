@@ -191,8 +191,18 @@ dog-project/
 * **`frontend/`**: 包含 Vue 應用程式，主要組件位於 `src/components/` (如 `RandomDog.vue`, `FavoriteList.vue`)。
 
 ---
-## 🔗 API 端點 (Django)
+## 🔗 API 端點 (Django) 
 
-* `GET /api/dogs/`: 獲取收藏清單。
-* `POST /api/dogs/`: 新增一張狗狗圖片至收藏。
-* `DELETE /api/dogs/{id}/`: 根據 ID 移除收藏。
+#### **收藏管理 (Dogs)**
+* `GET /api/dogs/`: **取得圖片收藏列表**。回傳所有已收藏的圖片，並依建立時間降冪排序。
+* `POST /api/dogs/`: **收藏新的圖片**。將新的狗狗圖片網址 (URL) 儲存至資料庫。
+* `GET /api/dogs/{id}/`: **查看單筆圖片資訊**。根據特定 ID 取得收藏細節。
+* `PUT /api/dogs/{id}/`: **修改圖片資訊 (完整)**。更新特定收藏的完整內容。
+* `PATCH /api/dogs/{id}/`: **修改圖片資訊 (部分)**。更新特定收藏的部分欄位。
+* `DELETE /api/dogs/{id}/`: **移除收藏**。將指定圖片從資料庫中永久刪除。
+
+
+#### **API 互動式文件 (OpenAPI)**
+* `GET /api/schema/swagger-ui/`: **Swagger UI**。提供圖形化介面供開發者測試 API。
+* `GET /api/schema/redoc/`: **Redoc UI**。以另一種閱讀友好的格式呈現 API 文件。
+* `GET /api/schema/`: **OpenAPI Schema**。獲取 YAML 格式的原始定義檔。
