@@ -10,7 +10,42 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .models import DogImage
 from .serializers import DogImageSerializer
+# 匯入 drf-spectacular 的文件工具
+from drf_spectacular.utils import extend_schema, extend_schema_view
 
+# 使用裝飾器為 ViewSet 的各種動作添加「中文說明」，貼在目標函式的頭上即可
+@extend_schema_view(
+    # list: 對應 GET /api/dogs/ (取得清單)
+    list=extend_schema(
+        summary="取得圖片收藏列表",
+        description="回傳所有已收藏的狗狗圖片資料。列表會依照建立時間由新到舊排序，最新的在最上面。"
+    ),
+    # create: 對應 POST /api/dogs/ (新增)
+    create=extend_schema(
+        summary="收藏新的圖片",
+        description="將一張新的狗狗圖片網址 (URL) 加入到資料庫中。"
+    ),
+    # retrieve: 對應 GET /api/dogs/{id}/ (取得單筆) - 就是您剛剛測試的那個
+    retrieve=extend_schema(
+        summary="查看單筆圖片資訊",
+        description="根據 ID 取得特定一張收藏圖片的詳細資料（包含 ID、圖片網址、收藏時間）。"
+    ),
+    # update: 對應 PUT /api/dogs/{id}/ (完整修改)
+    update=extend_schema(
+        summary="修改圖片資訊 (完整)",
+        description="更新特定收藏的內容。"
+    ),
+    # partial_update: 對應 PATCH /api/dogs/{id}/ (部分修改)
+    partial_update=extend_schema(
+        summary="修改圖片資訊 (部分)",
+        description="更新特定收藏的部分內容。"
+    ),
+    # destroy: 對應 DELETE /api/dogs/{id}/ (刪除)
+    destroy=extend_schema(
+        summary="移除收藏",
+        description="將這張圖片從您的收藏資料庫中永久刪除。"
+    )
+)
 # 使用 ModelViewSet 自動封裝所有標準的 API 動作 (List, Create, Retrieve, Update, Destroy)
 class DogImageViewSet(viewsets.ModelViewSet):
     # 定義要從資料庫提取的資料範圍，並依建立時間「降冪」排列 (由新到舊)
