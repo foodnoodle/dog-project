@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     # 第三方擴充套件(剛剛透過 uv add 安裝的套件)
     'rest_framework', # 建立 API
     'corsheaders',  # 處理跨域請求
-
+    'drf_spectacular', # 新套件，要重新建置 Docker 映像檔
+ 
     # 自訂義的應用程式
-    # # 剛建立的本地 App，在此註冊後 Django 才能識別其模型與路由。
+    # 剛建立的本地 App，在此註冊後 Django 才能識別其模型與路由。
     'api',  
 ]
 
@@ -126,3 +127,18 @@ USE_TZ = True
 STATIC_URL = 'static/'
 # 允許所有來源進行跨域請求，開發階段使用。
 CORS_ALLOW_ALL_ORIGINS = True
+
+# Django REST Framework 設定
+REST_FRAMEWORK = {
+    # 指定預設的 Schema 生成器為 drf-spectacular
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# Spectacular 設定 (API 文件資訊)
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Dog Project API',
+    'DESCRIPTION': '這是 Dog Project 的後端 API 文件，提供狗狗資料的查詢與操作功能。',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False, # 在 API 文件頁面中隱藏 Schema 本身的端點
+    # 其他設定可參考官方文件
+}

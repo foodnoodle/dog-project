@@ -16,8 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include('api.urls')),  # 將 api.urls 的路由配置包含進來，前綴為 'api/'
+    
+    # --- 以下為 API 文件路由 ---
+    # 1. 生成 OpenAPI Schema (YAML 格式的定義檔)
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # 2. Swagger UI (互動式 API 文件，開發者最常用)
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    # 3. Redoc UI (另一種排版風格的文件，適合閱讀)
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
