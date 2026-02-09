@@ -1,0 +1,38 @@
+name: Django CI
+
+# 觸發條件：當有人 push 到 main 分支，或發起 Pull Request 時執行
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    # 設定預設工作目錄在 backend (因為您的 manage.py 在這裡)
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+    # 1. 下載您的程式碼
+    - uses: actions/checkout@v4
+
+    # 2. 安裝 uv 工具 (使用官方 Action，速度極快)
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+
+    # 3. 設定 Python 環境 (這裡指定 3.12，與您的環境一致)
+    - name: Set up Python
+      run: uv python install 3.12
+
+    # 4. 安裝依賴套件 (讀取 pyproject.toml 和 uv.lock)
+    - name: Install dependencies
+      run: uv sync --all-extras --dev
+
+    # 5. 執行測試
+    - name: Run Tests
+      # 使用 uv run 確保使用虛擬環境內的 python
+      run: uv run python manage.py test api
