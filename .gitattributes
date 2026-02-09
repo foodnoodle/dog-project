@@ -1,0 +1,3 @@
+# 強制 pyproject.toml 使用 LF 換行
+*.toml text eol=lf
+*.lock text eol=lf
