@@ -1,13 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import api from '../utils/api'; // 引入我們封裝好的 api 工具，不再使用 axios
 
 const dogs = ref([]); // 存放從後端抓回來的圖片列表
 
 // 1. 獲取收藏列表 (GET)
 const fetchFavorites = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/dogs/');
+    // api 實體會自動補上 base URL
+    const response = await api.get('/api/dogs/');
     dogs.value = response.data;
   } catch (error) {
     console.error('無法取得列表:', error);
@@ -17,13 +18,15 @@ const fetchFavorites = async () => {
 // 2. 刪除圖片 (DELETE) - 這是加碼功能
 const deleteDog = async (id) => {
   if (!confirm('確定要刪除這張狗狗嗎？')) return;
-  
+
   try {
     // 呼叫後端 API 刪除該 ID 的資料
-    await axios.delete(`http://127.0.0.1:8000/api/dogs/${id}/`);
-    // 成功後，重新抓取一次列表，更新畫面
-    fetchFavorites();
+    await api.delete(`/api/dogs/${id}/`);
+
+    fetchFavorites(); // 成功後，重新抓取一次列表，更新畫面
   } catch (error) {
+    // 如果是伺服器掛了，api.js 會跳全域警告
+    // 這裡我們只要保留針對「刪除動作」失敗的提示即可
     alert('刪除失敗');
     console.error(error);
   }
@@ -61,7 +64,7 @@ onMounted(() => {
   padding: 20px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .header {
@@ -90,7 +93,7 @@ onMounted(() => {
 
 .grid-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .grid-item img {
