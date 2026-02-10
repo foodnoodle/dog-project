@@ -1,8 +1,47 @@
 # Django REST Framework API 設計
 
+---
+
+## 📌 前置概念：完整的請求-回應生命週期
+
+在學習 DRF 前，必須先理解一個 HTTP 請求在後端經過的完整流程：
+
+```
+1️⃣ 前端發送請求
+   GET /api/dogs/
+   
+2️⃣ URL 路由器（Router）接收
+   告訴 Django：去找 DogImageViewSet 處理
+   
+3️⃣ ViewSet 的對應方法被觸發
+   GET /api/dogs/ → 執行 list() 方法
+   
+4️⃣ Serializer 登場
+   Database Model → 序列化 → JSON
+   
+5️⃣ 返回 API 回應
+   HTTP 200 + JSON 資料
+```
+
+**核心概念速查表：**
+
+| 角色 | 職責 | 比喻 |
+|------|-----|------|
+| **Router** | 流量指揮 | 前台接待：根據 URL 判斷轉介給誰 |
+| **ViewSet** | 業務邏輯 | 業務部門：決定做什麼（新建、查詢、更新...） |
+| **Serializer** | 數據轉換 | 翻譯官：Model ↔ JSON 的雙向轉換 |
+
+**初學者必知的三條線索：**
+- 🔴 看到 URL → 想到 Router（網址怎麼寫？）
+- 🟢 看到業務邏輯 → 想到 ViewSet（要做什麼？）
+- 🔵 看到資料格式 → 想到 Serializer（怎麼轉換？）
+
+---
+
 ## 第一章：RESTful API 基礎
 
-### REST 原則
+### REST 原則：為什麼這樣設計？
+
 REST (Representational State Transfer) 是設計 Web API 的架構風格。
 
 **核心原則：**
