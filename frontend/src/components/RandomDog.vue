@@ -1,13 +1,15 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import api from '../utils/api'; // 引入我們封裝好的 api 工具，不再使用 axios
 
 const dogImage = ref('');
 
 // 1. 抓取隨機圖片
 const fetchNewDog = async () => {
   try {
-    const response = await axios.get('https://dog.ceo/api/breeds/image/random');
+    // 這裡雖然是外部網址，但 api 實體一樣可以處理。
+    // Axios 特性：如果網址是以 http 開頭，它會忽略 baseURL，直接使用完整網址。
+    const response = await api.get('https://dog.ceo/api/breeds/image/random');
     dogImage.value = response.data.message;
   } catch (error) {
     console.error('抓取圖片失敗:', error);
@@ -20,17 +22,21 @@ const saveDog = async () => {
 
   try {
     // 發送 POST 請求給我們的 Django API
-    const response = await axios.post('http://127.0.0.1:8000/api/dogs/', {
+    // [重點] 這裡不再寫死 http://127.0.0.1:8000
+    // api 實體會自動讀取環境變數 VITE_API_BASE_URL 並拼貼上去
+    // 我們只要寫「相對路徑」即可
+    const response = await api.post('/api/dogs/', {
       url: dogImage.value
     });
-    
+
     // 成功提示 (簡單用 alert，之後可以優化)
     alert('收藏成功！');
     console.log('後端回應:', response.data);
-    
-  } catch (error) {
+
+  }catch (error) {
+    // 錯誤的大部分處理 (如伺服器沒開) 已經在 api.js 的攔截器做完了
+    // 這裡只要處理「收藏特定失敗」的邏輯即可
     console.error('收藏失敗:', error);
-    alert('收藏失敗，請檢查後端伺服器是否開啟。');
   }
 };
 
@@ -42,7 +48,7 @@ onMounted(() => {
 <template>
   <div class="dog-card">
     <h2>🐶 隨機狗狗</h2>
-    
+
     <div class="image-container">
       <img v-if="dogImage" :src="dogImage" alt="Random Dog" />
       <p v-else>載入中...</p>
@@ -65,12 +71,13 @@ onMounted(() => {
   margin: 20px auto;
   text-align: center;
   background-color: #fff;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .image-container {
   margin: 20px 0;
-  min-height: 300px; /* 固定高度避免跳動 */
+  min-height: 300px;
+  /* 固定高度避免跳動 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,7 +117,8 @@ button:hover {
 }
 
 .btn-save {
-  background-color: #9c27b0;;
+  background-color: #9c27b0;
+  ;
   color: white;
 }
 </style>

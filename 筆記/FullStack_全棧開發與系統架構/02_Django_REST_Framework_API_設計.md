@@ -1,8 +1,50 @@
 # Django REST Framework API 設計
+## 📌 前置概念：完整的請求-回應生命週期
+
+在學習 DRF 前，必須先理解一個 HTTP 請求在後端經過的完整流程：
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Client as 👤 用戶 (Client)
+    participant Router as 1️⃣ Router (路由分派)
+    participant ViewSet as 2️⃣ ViewSet (視圖邏輯)
+    participant DB as 🗄️ 資料庫 (ORM)
+    participant Serializer as 3️⃣ Serializer (序列化)
+
+    Client->>Router: 發送請求 (GET /api/dogs/5/)
+    Router->>ViewSet: 識別網址，分派至 DogImageViewSet
+    
+    Note over ViewSet: 🛠️ 執行業務邏輯
+    ViewSet->>DB: 發送查詢 (ORM Get)
+    DB-->>ViewSet: 回傳 Model 物件 (Instance)
+    
+    ViewSet->>Serializer: 傳入 Model 物件
+    Note over Serializer: 🔄 執行序列化 (Model ➔ Dict)
+    Serializer-->>ViewSet: 回傳 Python 字典 (Dict data)
+    
+    Note over ViewSet: 📦 渲染處理 (Renderer)
+    ViewSet-->>Client: 回應 HTTP 200 OK (渲染為 JSON)
+```
+**核心概念速查表：**
+
+| 角色 | 職責 | 比喻 |
+|------|-----|------|
+| **Router** | 流量指揮 | 前台接待：根據 URL 判斷轉介給誰 |
+| **ViewSet** | 業務邏輯 | 業務部門：決定做什麼（新建、查詢、更新...） |
+| **Serializer** | 數據轉換 | 翻譯官：Model ↔ JSON 的雙向轉換 |
+
+**初學者必知的三條線索：**
+- 🔴 看到 URL → 想到 Router（網址怎麼寫？）
+- 🟢 看到業務邏輯 → 想到 ViewSet（要做什麼？）
+- 🔵 看到資料格式 → 想到 Serializer（怎麼轉換？）
+
+---
 
 ## 第一章：RESTful API 基礎
 
-### REST 原則
+### REST 原則：為什麼這樣設計？
+
 REST (Representational State Transfer) 是設計 Web API 的架構風格。
 
 **核心原則：**

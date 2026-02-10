@@ -1,11 +1,22 @@
 name: Django CI
 
-# 觸發條件：當有人 push 到 main 分支，或發起 Pull Request 時執行
+# 觸發條件：
+# 1. 手動觸發 (方便除錯)
+# 2. Push 到 main 分支，但只監聽特定檔案
+# 3. PR 到 main 分支，但也只監聽特定檔案
 on:
+  workflow_dispatch:  # 加入這個讓您可以手動按按鈕執行
   push:
     branches: [ "main" ]
+    paths:
+      - 'backend/**'           # 關鍵！只有 backend 資料夾變動才觸發
+      - '.github/workflows/ci.yml' # 或是修改了這個 CI 設定檔本身才觸發
+      # - 'docker-compose.yaml' # (選填) 如果測試依賴它，也可以加進來
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/ci.yml'
 
 jobs:
   test:

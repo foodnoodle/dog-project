@@ -170,6 +170,8 @@ class DogImage(models.Model):
     url = models.URLField(max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 ```
+在一個模型（如 `DogImage`）中定義 `ForeignKey` 指向另一個模型（如 `User`）時，Django 會自動在目標模型（`User`）的實例上新增一個屬性，其預設命名格式為： **`子模型類別名稱的小寫` + `_set`** (如 user.dogimage_set.all())
+
 
 **on_delete 參數詳解：**
 - `models.CASCADE`：父資料刪除時，子資料也刪除
