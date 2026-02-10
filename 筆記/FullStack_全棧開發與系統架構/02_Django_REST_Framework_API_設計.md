@@ -1,28 +1,28 @@
 # Django REST Framework API 設計
-
----
-
 ## 📌 前置概念：完整的請求-回應生命週期
 
 在學習 DRF 前，必須先理解一個 HTTP 請求在後端經過的完整流程：
 
-```
-1️⃣ 前端發送請求
-   GET /api/dogs/
-   
-2️⃣ URL 路由器（Router）接收
-   告訴 Django：去找 DogImageViewSet 處理
-   
-3️⃣ ViewSet 的對應方法被觸發
-   GET /api/dogs/ → 執行 list() 方法
-   
-4️⃣ Serializer 登場
-   Database Model → 序列化 → JSON
-   
-5️⃣ 返回 API 回應
-   HTTP 200 + JSON 資料
-```
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Client as 👤 用戶 (Client)
+    participant Router as 1️⃣ Router (總機)
+    participant ViewSet as 2️⃣ ViewSet (業務)
+    participant Serializer as 3️⃣ Serializer (翻譯)
 
+    Client->>Router: 發送請求 (GET /api/dogs/5/)
+    Note over Router: 🔎 分析網址，決定交給誰
+    Router->>ViewSet: 轉交給 DogImageViewSet
+    
+    Note over ViewSet: 🛠️ 執行邏輯：去資料庫抓資料
+    ViewSet->>Serializer: 丟入 Model 物件
+    
+    Note over Serializer: 🔄 翻譯：Model -> JSON
+    Serializer-->>ViewSet: 返回 JSON 資料
+    
+    ViewSet-->>Client: 回傳 HTTP 200 OK
+```
 **核心概念速查表：**
 
 | 角色 | 職責 | 比喻 |
