@@ -7,21 +7,24 @@
 sequenceDiagram
     autonumber
     participant Client as 👤 用戶 (Client)
-    participant Router as 1️⃣ Router (總機)
-    participant ViewSet as 2️⃣ ViewSet (業務)
-    participant Serializer as 3️⃣ Serializer (翻譯)
+    participant Router as 1️⃣ Router (路由分派)
+    participant ViewSet as 2️⃣ ViewSet (視圖邏輯)
+    participant DB as 🗄️ 資料庫 (ORM)
+    participant Serializer as 3️⃣ Serializer (序列化)
 
     Client->>Router: 發送請求 (GET /api/dogs/5/)
-    Note over Router: 🔎 分析網址，決定交給誰
-    Router->>ViewSet: 轉交給 DogImageViewSet
+    Router->>ViewSet: 識別網址，分派至 DogImageViewSet
     
-    Note over ViewSet: 🛠️ 執行邏輯：去資料庫抓資料
-    ViewSet->>Serializer: 丟入 Model 物件
+    Note over ViewSet: 🛠️ 執行業務邏輯
+    ViewSet->>DB: 發送查詢 (ORM Get)
+    DB-->>ViewSet: 回傳 Model 物件 (Instance)
     
-    Note over Serializer: 🔄 翻譯：Model -> JSON
-    Serializer-->>ViewSet: 返回 JSON 資料
+    ViewSet->>Serializer: 傳入 Model 物件
+    Note over Serializer: 🔄 執行序列化 (Model ➔ Dict)
+    Serializer-->>ViewSet: 回傳 Python 字典 (Dict data)
     
-    ViewSet-->>Client: 回傳 HTTP 200 OK
+    Note over ViewSet: 📦 渲染處理 (Renderer)
+    ViewSet-->>Client: 回應 HTTP 200 OK (渲染為 JSON)
 ```
 **核心概念速查表：**
 
