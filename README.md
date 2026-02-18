@@ -10,23 +10,25 @@
 
 ## 🚀 技術棧 (Tech Stack)
 
+<img src="images/Readme_images/tech_stack.png" height="300" alt="技術棧">
+
+### ⚡ 前端技術 (Frontend)
+
+* **開發框架**: **Vue 3.5.24**，採用 **SFC (Single File Components)** 與 **Composition API (`<script setup>`)** 模式開發。
+* **狀態管理**: **Pinia 3.0.4**，用於全域管理使用者登入狀態 (Auth Store) 與收藏資料。
+* **構建工具**: **Vite 7.2.4**，提供極速的開發環境熱重載與優化的生產環境打包。
+* **前端路由**: **Vue Router 4.6.4**，管理「首頁」、「收藏頁」、「登入/註冊」之間的視圖切換，並實作導航守衛 (Navigation Guards) 保護私人頁面。
+* **HTTP 客戶端**: **Axios 1.13.5**，負責與外部 Dog CEO API 溝通獲取隨機圖片，並與自定義的 Django 後端 API 進行資料同步。
+
 ### 🐍 後端技術 (Backend)
 
-* **執行環境**: **Python 3.14**
+* **執行環境**: **Python 3.12**
 * **Web 框架**: **Django 6.0.2**，負責處理後端邏輯與資料庫互動。
 * **API 框架**: **Django REST Framework (DRF) 3.16.1**，用於構建 RESTful API 介面，並透過 `ModelViewSet` 與 `DefaultRouter` 實現自動化路由與 CRUD 功能。
 * **認證系統**: **dj-rest-auth** 與 **django-allauth**，提供標準化的會員註冊、登入與 Token 驗證機制。
 * **套件管理**: 使用 **uv** 作為現代化的 Python 套件管理與虛擬環境建置工具。
 * **跨網域處理**: 透過 **django-cors-headers** 解決前後端分離產生的 CORS (跨網域資源共享) 問題。
 * **資料庫**: 使用 **SQLite3**，用於儲存圖片網址 (URL) 與建立時間戳記。
-
-### ⚡ 前端技術 (Frontend)
-
-* **開發框架**: **Vue 3**，採用 **SFC (Single File Components)** 與 **Composition API (`<script setup>`)** 模式開發。
-* **狀態管理**: **Pinia**，用於全域管理使用者登入狀態 (Auth Store) 與收藏資料。
-* **構建工具**: **Vite 7.2.4**，提供極速的開發環境熱重載與優化的生產環境打包。
-* **前端路由**: **Vue Router 4.6.4**，管理「首頁」、「收藏頁」、「登入/註冊」之間的視圖切換，並實作導航守衛 (Navigation Guards) 保護私人頁面。
-* **HTTP 客戶端**: **Axios 1.13.4**，負責與外部 Dog CEO API 溝通獲取隨機圖片，並與自定義的 Django 後端 API 進行資料同步。
 
 ---
 ## 🐳 Docker 一鍵啟動 (Docker Quick Start)
@@ -131,10 +133,10 @@ npm run dev
   <tbody>
     <tr>
       <td align="center">
-        <img src="images/Readme_images/git_source_control.png" height="350">
+        <img src="images/Readme_images/git_source_control.png" height="350" alt="Git 版本控制">
       </td>
       <td align="center">
-        <img src="images/Readme_images/sqlite_viewer.png" height="350">
+        <img src="images/Readme_images/sqlite_viewer.png" height="350" alt="資料庫視覺化管理">
       </td>
     </tr>
     <tr>
