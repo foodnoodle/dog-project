@@ -147,29 +147,48 @@ npm run dev
 ---
 ## 🌟 核心功能
 
-1. **會員認證系統 (Authentication)**:
+### 1. **會員認證系統 (Authentication)**:
 * **註冊/登入 (Sign Up / Login)**: 使用者需註冊帳號並登入後，才能使用收藏功能。
 * **JWT 驗證**: 採用 JSON Web Token 機制保護 API，確保資料安全性。
 
-2. **隨機狗狗抽卡 (HomeView)**:
+<table width="100%">
+  <thead>
+    <tr>
+      <th width="50%" align="center">登入畫面 (Login)</th>
+      <th width="50%" align="center">註冊畫面 (Register)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">
+        <img src="images/Readme_images/login_screen.png" height="300" alt="登入畫面">
+      </td>
+      <td align="center">
+        <img src="images/Readme_images/register_screen.png" height="300" alt="註冊畫面">
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### 2. **隨機狗狗抽卡 (HomeView)**:
 
 <img src="https://github.com/user-attachments/assets/b60d6b4e-9a6c-4cde-801e-58ff773a30c1" width="500" alt="隨機抽卡">
        
 * 從外部 Dog CEO API 獲取即時的隨機狗狗圖片。
   
-<img src="https://github.com/user-attachments/assets/d8deb2b4-bd50-4e6a-907b-9c0c24a0f3f9" width="500" alt="隨機抽卡">
+<img src="https://github.com/user-attachments/assets/d8deb2b4-bd50-4e6a-907b-9c0c24a0f3f9" width="500" alt="收藏這張">
   
 * 提供「收藏這張」功能，透過 `POST` 請求將圖片網址傳送至後端儲存 **(需登入)**。
 
-3. **我的收藏庫 (FavoritesView)**:
+### 3. **我的收藏庫 (FavoritesView)**:
    
-<img src="https://github.com/user-attachments/assets/fa4a40cd-e1aa-48e0-9cbc-7f61125261c3" width="500" alt="隨機抽卡">
+<img src="https://github.com/user-attachments/assets/fa4a40cd-e1aa-48e0-9cbc-7f61125261c3" width="500" alt="我的收藏">
  
 * 展示使用者 **個人專屬** 的收藏列表，預設依據建立時間進行降冪排列。
 * 提供「刪除」功能，可直接從後端資料庫移除指定的收藏項目。
 
 
-4. **響應式網格佈局**:
+### 4. **響應式網格佈局**:
 * 收藏列表具備響應式設計，能在不同裝置螢幕下自動調整圖片排列順序。
 
 ---
