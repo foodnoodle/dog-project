@@ -2,8 +2,10 @@
 import { ref, onMounted } from 'vue';
 import api from '../utils/api'; // 引入我們封裝好的 api 工具
 import axios from 'axios'; // 引入 axios，為了抓取外部 API 的圖片
+import { useAuthStore } from '../stores/auth'; // [新增]引入 auth store
 
 const dogImage = ref('');
+const authStore = useAuthStore(); // 初始化 auth store
 
 // 1. 抓取隨機圖片
 const fetchNewDog = async () => {
@@ -17,9 +19,15 @@ const fetchNewDog = async () => {
   }
 };
 
-// 2. [新增] 收藏圖片到 Django 後端
+// 2. 收藏圖片到 Django 後端
 const saveDog = async () => {
   if (!dogImage.value) return; // 如果沒圖片就不執行
+
+  // 檢查是否登入
+  if (!authStore.isAuthenticated) {
+    alert('請先登入才能收藏'); // 跳出提示
+    return;
+  }
 
   try {
     // 發送 POST 請求給我們的 Django API
