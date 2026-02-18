@@ -2,36 +2,22 @@
   <div class="login-container">
     <div class="card">
       <h2>🐶 會員登入</h2>
-      
+
       <form @submit.prevent="handleLogin" class="login-form">
         <div class="form-group">
           <label for="username">帳號 (Username)</label>
-          <input 
-            id="username"
-            v-model="username" 
-            type="text" 
-            required 
-            placeholder="請輸入您的帳號"
-            :disabled="isLoading"
-          >
+          <input id="username" v-model="username" type="text" required placeholder="請輸入您的帳號" :disabled="isLoading">
         </div>
-        
+
         <div class="form-group">
           <label for="password">密碼 (Password)</label>
-          <input 
-            id="password"
-            v-model="password" 
-            type="password" 
-            required 
-            placeholder="請輸入您的密碼"
-            :disabled="isLoading"
-          >
+          <input id="password" v-model="password" type="password" required placeholder="請輸入您的密碼" :disabled="isLoading">
         </div>
 
         <div v-if="errorMessage" class="error-message">
           ⚠️ {{ errorMessage }}
         </div>
-        
+
         <button type="submit" :disabled="isLoading" class="submit-btn">
           <span v-if="isLoading">登入中...</span>
           <span v-else>立即登入</span>
@@ -39,8 +25,8 @@
       </form>
 
       <div class="tips">
-        <p>還沒有帳號？請聯絡管理員 (目前尚未開放註冊)</p>
-        <p>測試帳號：admin / 密碼：(您剛剛設定的)</p>
+        <p>還沒有帳號？ <router-link to="/register">立即註冊</router-link></p>
+        <p class="test-account">測試帳號：TestUser2024 / 密碼：TestUser2024</p>
       </div>
     </div>
   </div>
@@ -65,15 +51,15 @@ const handleLogin = async () => {
   // 1. 重置狀態
   isLoading.value = true;
   errorMessage.value = '';
-  
+
   try {
     // 2. 呼叫 Pinia Store 的登入動作
     await authStore.login(username.value, password.value);
-    
+
     // 3. 登入成功，跳轉回首頁
     // (小技巧：如果未來有「從哪裡來就回哪裡去」的需求，可以在這裡改)
-    router.push('/'); 
-    
+    router.push('/');
+
   } catch (error) {
     // 4. 處理錯誤 (如果是 400/401 通常是帳號密碼錯)
     console.error(error);
@@ -94,7 +80,8 @@ const handleLogin = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh; /* 讓它盡量置中 */
+  min-height: 80vh;
+  /* 讓它盡量置中 */
 }
 
 .card {
@@ -131,7 +118,8 @@ input {
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.3s;
-  box-sizing: border-box; /* 確保 padding 不會撐爆寬度 */
+  box-sizing: border-box;
+  /* 確保 padding 不會撐爆寬度 */
 }
 
 input:focus {
@@ -182,5 +170,21 @@ input:disabled {
   color: #7f8c8d;
   border-top: 1px solid #eee;
   padding-top: 1rem;
+}
+
+a {
+  color: #42b883;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.test-account {
+  font-size: 0.8rem;
+  color: #bdc3c7;
+  margin-top: 0.5rem;
 }
 </style>
