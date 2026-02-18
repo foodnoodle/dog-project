@@ -1,6 +1,7 @@
 from django.urls import reverse  # 用於反查 URL，避免在程式碼中寫死路徑 (如 '/api/dogs/')
 from rest_framework import status  # 引入標準 HTTP 狀態碼常數，增加程式碼可讀性 (如 HTTP_200_OK)
 from rest_framework.test import APITestCase  # DRF 提供的測試基類，內建了強大的測試客戶端 (APIClient)
+from django.contrib.auth.models import User # 引入 User 模型
 from .models import DogImage  # 引入我們要測試的資料庫模型
 
 class DogApiTests(APITestCase):
@@ -15,13 +16,18 @@ class DogApiTests(APITestCase):
         這個方法會在「每一個」測試方法 (test_...) 執行之前自動執行一次。
         用來準備該次測試所需的基礎資料與變數。
         """
+        # 0. 建立測試使用者並登入
+        self.user = User.objects.create_user(username='testuser', password='password')
+        self.client.force_authenticate(user=self.user)
+
         # 1. 建立一筆測試用的初始資料
         # 定義資料內容 (模擬一筆收藏的圖片)
         self.dog_data = {'url': 'https://google.com/不存在的圖.jpg'}
         
         # 透過 Django ORM 在「測試專用的資料庫」中實際建立這筆資料。
         # 使用 **self.dog_data (字典解包) 將資料作為參數傳入 create 方法。
-        self.dog = DogImage.objects.create(**self.dog_data)
+        # 加上 owner 欄位
+        self.dog = DogImage.objects.create(owner=self.user, **self.dog_data)
         
         # 2. 設定正確的 API URL
         # 我們使用 reverse() 來反查 URL，而不是寫死字串，這樣就算未來網址規則改變，測試程式也不用修。

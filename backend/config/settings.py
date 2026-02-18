@@ -172,8 +172,8 @@ SITE_ID = 1  # 這是 django.contrib.sites 需要的
 
 # 3. 註冊與登入行為設定
 ACCOUNT_EMAIL_VERIFICATION = 'none'  # 開發階段先不強制驗證 Email
-ACCOUNT_AUTHENTICATION_METHOD = 'username' # 使用使用者名稱登入
-ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_LOGIN_METHODS = {'username'} # 使用使用者名稱登入
+ACCOUNT_SIGNUP_FIELDS = ['email', 'username*', 'password1*', 'password2*'] # Email 非必填，其他必填
 
 # 4. Email 後端 (開發用，不會真的寄信，只會印在終端機)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
