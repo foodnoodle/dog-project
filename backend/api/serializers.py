@@ -9,8 +9,12 @@ from rest_framework import serializers
 from .models import DogImage
 
 class DogImageSerializer(serializers.ModelSerializer):
+    
+    # 設定 owner 為唯讀，並顯示使用者名稱 (而不是 ID)
+    owner = serializers.ReadOnlyField(source='owner.username')
+    
     class Meta:
         # 指定要關聯的資料庫模型
         model = DogImage
         # 轉換所有欄位 (id, url, created_at)
-        fields = '__all__'
+        fields = ['id', 'owner', 'url', 'created_at']

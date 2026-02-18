@@ -40,8 +40,17 @@ INSTALLED_APPS = [
 
     # 第三方擴充套件(剛剛透過 uv add 安裝的套件)
     'rest_framework', # 建立 API
+    'rest_framework.authtoken',  # Token 驗證必備
     'corsheaders',  # 處理跨域請求
     'drf_spectacular', # 新套件，要重新建置 Docker 映像檔
+ 
+    # Auth & Allauth
+    'dj_rest_auth',              # 提供 REST 架構的登入、註冊與密碼管理 API
+    'django.contrib.sites',      # allauth 依賴 (需要設定 SITE_ID)
+    'allauth',                   # 處理使用者驗證的核心套件
+    'allauth.account',           # 管理一般帳號 (註冊、登入、Email 驗證)
+    'allauth.socialaccount',     # 處理第三方登入 (Google, FB 等)，即使暫不用也建議保留
+    'dj_rest_auth.registration', # 提供註冊相關的 REST API 端點
  
     # 自訂義的應用程式
     # 剛建立的本地 App，在此註冊後 Django 才能識別其模型與路由。
@@ -57,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware', # 讓 allauth 能夠在每個 Request 中存取 User 物件
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -142,3 +152,27 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False, # 在 API 文件頁面中隱藏 Schema 本身的端點
     # 其他設定可參考官方文件
 }
+
+# =========================================
+# Auth & DRF Settings
+# =========================================
+
+# 1. 啟用 Token 驗證機制
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication', 
+    ),
+}
+
+# 2. Allauth 必要設定
+SITE_ID = 1  # 這是 django.contrib.sites 需要的
+
+# 3. 註冊與登入行為設定
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # 開發階段先不強制驗證 Email
+ACCOUNT_AUTHENTICATION_METHOD = 'username' # 使用使用者名稱登入
+ACCOUNT_EMAIL_REQUIRED = False
+
+# 4. Email 後端 (開發用，不會真的寄信，只會印在終端機)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

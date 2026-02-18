@@ -10,6 +10,7 @@ migrate：
 # 這段程式碼定義了 Django Model(模型)，
 # 用於表示和操作資料庫結構(Schema)中的 DogImage(狗狗圖片) 資料表。
 from django.db import models
+from django.contrib.auth.models import User # 引入 Django 內建的 User 模型
 
 """ 
 DRF 讀取到 Model 名稱是 DogImage，
@@ -20,6 +21,9 @@ DRF 讀取到 Model 名稱是 DogImage，
 class DogImage(models.Model):
     # 主鍵，自動遞增整數
     id = models.AutoField(primary_key=True)
+    
+    # owner 欄位：綁定使用者，如果使用者被刪除，圖片也一起刪除
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images')
     
     # 儲存圖片的網址，內建格式驗證，長度上限 500 字元
     url = models.URLField(max_length=500)

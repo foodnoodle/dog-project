@@ -5,7 +5,7 @@
 2.資料集控管 (queryset)：定義了 API 存取的原始資料來源。使用 .order_by('-created_at') 確保回傳結果符合「最新優先」的邏輯，常見於動態牆或收藏列表。
 3.宣告式關聯：透過 serializer_class 綁定先前的序列化器，讓 ViewSet 知道如何處理資料的輸入驗證與輸出轉換。
 """
-
+from rest_framework import viewsets, permissions  # 新增 permissions
 from django.shortcuts import render
 from rest_framework import viewsets
 from .models import DogImage
@@ -54,3 +54,14 @@ class DogImageViewSet(viewsets.ModelViewSet):
 
     # 指定這個 ViewSet 使用哪個 Serializer 來處理資料的驗證與轉換。
     serializer_class = DogImageSerializer
+
+    # 1. 加上警衛：只有登入的使用者才能存取
+    permission_classes = [permissions.IsAuthenticated]
+
+    # 2. 過濾視野：只回傳「我是主人」的圖片
+    def get_queryset(self):
+        return DogImage.objects.filter(owner=self.request.user).order_by('-created_at')
+
+    # 3. 自動標記：存檔時，自動把 owner 填成目前登入的使用者
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
