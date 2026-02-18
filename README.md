@@ -15,6 +15,7 @@
 * **執行環境**: **Python 3.14**
 * **Web 框架**: **Django 6.0.2**，負責處理後端邏輯與資料庫互動。
 * **API 框架**: **Django REST Framework (DRF) 3.16.1**，用於構建 RESTful API 介面，並透過 `ModelViewSet` 與 `DefaultRouter` 實現自動化路由與 CRUD 功能。
+* **認證系統**: **dj-rest-auth** 與 **django-allauth**，提供標準化的會員註冊、登入與 Token 驗證機制。
 * **套件管理**: 使用 **uv** 作為現代化的 Python 套件管理與虛擬環境建置工具。
 * **跨網域處理**: 透過 **django-cors-headers** 解決前後端分離產生的 CORS (跨網域資源共享) 問題。
 * **資料庫**: 使用 **SQLite3**，用於儲存圖片網址 (URL) 與建立時間戳記。
@@ -22,8 +23,9 @@
 ### ⚡ 前端技術 (Frontend)
 
 * **開發框架**: **Vue 3**，採用 **SFC (Single File Components)** 與 **Composition API (`<script setup>`)** 模式開發。
+* **狀態管理**: **Pinia**，用於全域管理使用者登入狀態 (Auth Store) 與收藏資料。
 * **構建工具**: **Vite 7.2.4**，提供極速的開發環境熱重載與優化的生產環境打包。
-* **前端路由**: **Vue Router 4.6.4**，管理「首頁」與「收藏頁」之間的視圖切換。
+* **前端路由**: **Vue Router 4.6.4**，管理「首頁」、「收藏頁」、「登入/註冊」之間的視圖切換，並實作導航守衛 (Navigation Guards) 保護私人頁面。
 * **HTTP 客戶端**: **Axios 1.13.4**，負責與外部 Dog CEO API 溝通獲取隨機圖片，並與自定義的 Django 後端 API 進行資料同步。
 
 ---
@@ -145,7 +147,11 @@ npm run dev
 ---
 ## 🌟 核心功能
 
-1. **隨機狗狗抽卡 (HomeView)**:
+1. **會員認證系統 (Authentication)**:
+* **註冊/登入 (Sign Up / Login)**: 使用者需註冊帳號並登入後，才能使用收藏功能。
+* **JWT 驗證**: 採用 JSON Web Token 機制保護 API，確保資料安全性。
+
+2. **隨機狗狗抽卡 (HomeView)**:
 
 <img src="https://github.com/user-attachments/assets/b60d6b4e-9a6c-4cde-801e-58ff773a30c1" width="500" alt="隨機抽卡">
        
@@ -153,17 +159,17 @@ npm run dev
   
 <img src="https://github.com/user-attachments/assets/d8deb2b4-bd50-4e6a-907b-9c0c24a0f3f9" width="500" alt="隨機抽卡">
   
-* 提供「收藏這張」功能，透過 `POST` 請求將圖片網址傳送至後端儲存。
+* 提供「收藏這張」功能，透過 `POST` 請求將圖片網址傳送至後端儲存 **(需登入)**。
 
-2. **我的收藏庫 (FavoritesView)**:
+3. **我的收藏庫 (FavoritesView)**:
    
 <img src="https://github.com/user-attachments/assets/fa4a40cd-e1aa-48e0-9cbc-7f61125261c3" width="500" alt="隨機抽卡">
  
-* 展示所有儲存於資料庫中的狗狗圖片，預設依據建立時間進行降冪排列（最新收藏的排在最前）。
+* 展示使用者 **個人專屬** 的收藏列表，預設依據建立時間進行降冪排列。
 * 提供「刪除」功能，可直接從後端資料庫移除指定的收藏項目。
 
 
-3. **響應式網格佈局**:
+4. **響應式網格佈局**:
 * 收藏列表具備響應式設計，能在不同裝置螢幕下自動調整圖片排列順序。
 
 ---
@@ -201,16 +207,22 @@ dog-project/
 ---
 ## 🔗 API 端點 (Django) 
 
+#### **認證管理 (Auth)**
+* `POST /api/auth/registration/`: **註冊**。 建立新使用者帳號。
+* `POST /api/auth/login/`: **登入**。 取得 JWT Token。
+* `POST /api/auth/logout/`: **登出**。 清除 Session。
+* `GET /api/auth/user/`: **使用者資訊**。 取得當前登入者資料。
+
 #### **收藏管理 (Dogs)**
-* `GET /api/dogs/`: **取得圖片收藏列表**。回傳所有已收藏的圖片，並依建立時間降冪排序。
-* `POST /api/dogs/`: **收藏新的圖片**。將新的狗狗圖片網址 (URL) 儲存至資料庫。
-* `GET /api/dogs/{id}/`: **查看單筆圖片資訊**。根據特定 ID 取得收藏細節。
-* `PUT /api/dogs/{id}/`: **修改圖片資訊 (完整)**。更新特定收藏的完整內容。
-* `PATCH /api/dogs/{id}/`: **修改圖片資訊 (部分)**。更新特定收藏的部分欄位。
-* `DELETE /api/dogs/{id}/`: **移除收藏**。將指定圖片從資料庫中永久刪除。
+* `GET /api/dogs/`: **取得圖片收藏列表**。 回傳所有已收藏的圖片，並依建立時間降冪排序。
+* `POST /api/dogs/`: **收藏新的圖片**。 將新的狗狗圖片網址 (URL) 儲存至資料庫。
+* `GET /api/dogs/{id}/`: **查看單筆圖片資訊**。 根據特定 ID 取得收藏細節。
+* `PUT /api/dogs/{id}/`: **修改圖片資訊 (完整)**。 更新特定收藏的完整內容。
+* `PATCH /api/dogs/{id}/`: **修改圖片資訊 (部分)**。 更新特定收藏的部分欄位。
+* `DELETE /api/dogs/{id}/`: **移除收藏**。 將指定圖片從資料庫中永久刪除。
 
 
 #### **API 互動式文件 (OpenAPI)**
-* `GET /api/schema/swagger-ui/`: **Swagger UI**。提供圖形化介面供開發者測試 API。
-* `GET /api/schema/redoc/`: **Redoc UI**。以另一種閱讀友好的格式呈現 API 文件。
-* `GET /api/schema/`: **OpenAPI Schema**。獲取 YAML 格式的原始定義檔。
+* `GET /api/schema/swagger-ui/`: **Swagger UI**。 提供圖形化介面供開發者測試 API。
+* `GET /api/schema/redoc/`: **Redoc UI**。 以另一種閱讀友好的格式呈現 API 文件。
+* `GET /api/schema/`: **OpenAPI Schema**。 獲取 YAML 格式的原始定義檔。
