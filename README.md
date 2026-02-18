@@ -228,13 +228,13 @@ dog-project/
 ---
 ## 🔗 API 端點 (Django) 
 
-#### **認證管理 (Auth)**
+### **認證管理 (Auth)**
 * `POST /api/auth/registration/`: **註冊**。 建立新使用者帳號。
 * `POST /api/auth/login/`: **登入**。 取得 JWT Token。
 * `POST /api/auth/logout/`: **登出**。 清除 Session。
 * `GET /api/auth/user/`: **使用者資訊**。 取得當前登入者資料。
 
-#### **收藏管理 (Dogs)**
+### **收藏管理 (Dogs)**
 * `GET /api/dogs/`: **取得圖片收藏列表**。 回傳所有已收藏的圖片，並依建立時間降冪排序。
 * `POST /api/dogs/`: **收藏新的圖片**。 將新的狗狗圖片網址 (URL) 儲存至資料庫。
 * `GET /api/dogs/{id}/`: **查看單筆圖片資訊**。 根據特定 ID 取得收藏細節。
@@ -243,7 +243,12 @@ dog-project/
 * `DELETE /api/dogs/{id}/`: **移除收藏**。 將指定圖片從資料庫中永久刪除。
 
 
-#### **API 互動式文件 (OpenAPI)**
+### **API 互動式文件 (OpenAPI)**
+
+下圖是 Swagger UI 的截圖：
+
+<img src="images/Readme_images/swagger_ui.png" width="600" alt="Swagger UI">
+
 * `GET /api/schema/swagger-ui/`: **Swagger UI**。 提供圖形化介面供開發者測試 API。
 * `GET /api/schema/redoc/`: **Redoc UI**。 以另一種閱讀友好的格式呈現 API 文件。
 * `GET /api/schema/`: **OpenAPI Schema**。 獲取 YAML 格式的原始定義檔。
