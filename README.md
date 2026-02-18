@@ -174,14 +174,22 @@ dog-project/
 ├── backend/            # Django 後端程式碼 (Python 3.14 + DRF)
 │   ├── api/            # 核心 API 邏輯 (Models, Views, Serializers)
 │   ├── config/         # 專案全域設定
-│   └── pyproject.toml  # uv 套件管理配置
+│   ├── pyproject.toml  # uv 套件管理配置
+│   ├── uv.lock         # uv 鎖定檔
+│   ├── manage.py       # Django 管理指令
+│   └── Dockerfile      # 後端容器定義
 ├── frontend/           # Vue 3 前端程式碼 (Vite 構建)
 │   ├── src/            # 前端源碼 (Components, Views, Router)
-│   └── package.json    # 前端相依性與指令配置
+│   ├── public/         # 靜態資源
+│   ├── index.html      # Vue 入口 HTML
+│   ├── vite.config.js  # Vite 設定檔
+│   ├── package.json    # 前端相依性與指令配置
+│   └── Dockerfile      # 前端容器定義
 ├── images/             # 專案與教學文件的圖片存儲
 │   ├── Readme_images/  # README 專用截圖
 │   └── Notes_images/   # 教學筆記專用圖片
 ├── 筆記/               # 完整的開發教學文件與 Docker 手冊
+├── .github/            # GitHub Actions CI/CD 配置
 ├── .gitignore          # Git 忽略清單
 ├── docker-compose.yaml # Docker 一鍵啟動配置 (前後端編排)
 └── README.md           # 專案主要說明文件
