@@ -57,7 +57,7 @@ docker-compose up --build
 
 * **自動化資料庫遷移**：後端容器啟動時，會自動執行 `python manage.py migrate` 以確保資料庫結構是最新的，隨後才啟動 Django 伺服器。
 * **環境隔離**：
-* **Backend**: 使用 Python 3.14 環境，自動安裝 Django 及其相關 API 套件。
+* **Backend**: 使用 Python 3.12 環境，自動安裝 Django 及其相關 API 套件。
 * **Frontend**: 使用 Node 20 環境，自動執行 `npm install` 並啟動 Vite 開發伺服器。
 
 
@@ -198,7 +198,7 @@ npm run dev
 
 ```text
 dog-project/
-├── backend/            # Django 後端程式碼 (Python 3.14 + DRF)
+├── backend/            # Django 後端程式碼 (Python 3.12 + DRF)
 │   ├── api/            # 核心 API 邏輯 (Models, Views, Serializers)
 │   ├── config/         # 專案全域設定
 │   ├── pyproject.toml  # uv 套件管理配置
