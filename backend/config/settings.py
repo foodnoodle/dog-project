@@ -176,3 +176,24 @@ ACCOUNT_EMAIL_REQUIRED = False
 
 # 4. Email 後端 (開發用，不會真的寄信，只會印在終端機)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# === CORS 設定 ===
+# 1. 允許的前端來源
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+# 2. 允許的 Headers (這行最重要！)
+# 如果沒有這行，帶 Token 的請求會被拒絕
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',  # <--- 關鍵！允許 Authorization Header
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]

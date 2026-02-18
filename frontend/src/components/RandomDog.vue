@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import api from '../utils/api'; // 引入我們封裝好的 api 工具，不再使用 axios
+import api from '../utils/api'; // 引入我們封裝好的 api 工具
+import axios from 'axios'; // 引入 axios，為了抓取外部 API 的圖片
 
 const dogImage = ref('');
 
@@ -9,7 +10,7 @@ const fetchNewDog = async () => {
   try {
     // 這裡雖然是外部網址，但 api 實體一樣可以處理。
     // Axios 特性：如果網址是以 http 開頭，它會忽略 baseURL，直接使用完整網址。
-    const response = await api.get('https://dog.ceo/api/breeds/image/random');
+    const response = await axios.get('https://dog.ceo/api/breeds/image/random');
     dogImage.value = response.data.message;
   } catch (error) {
     console.error('抓取圖片失敗:', error);
@@ -33,7 +34,7 @@ const saveDog = async () => {
     alert('收藏成功！');
     console.log('後端回應:', response.data);
 
-  }catch (error) {
+  } catch (error) {
     // 錯誤的大部分處理 (如伺服器沒開) 已經在 api.js 的攔截器做完了
     // 這裡只要處理「收藏特定失敗」的邏輯即可
     console.error('收藏失敗:', error);

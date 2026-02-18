@@ -1,76 +1,109 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
   <div class="app-container">
-    <header>
-      <h1>我的狗狗收藏館 🐕</h1>
-      
-      <nav>
-        <RouterLink to="/" class="nav-link">首頁 (抽卡)</RouterLink>
-        <RouterLink to="/favorites" class="nav-link">我的收藏</RouterLink>
-      </nav>
-    </header>
+    <nav class="navbar">
+      <div class="nav-brand">🐶 狗狗圖鑑</div>
+      <div class="nav-links">
+        <router-link to="/" class="nav-item">首頁 (抽卡)</router-link>
 
-    <main>
-      <RouterView />
+        <template v-if="authStore.isAuthenticated">
+          <router-link to="/favorites" class="nav-item">我的收藏</router-link>
+          <button @click="handleLogout" class="nav-item logout-btn">登出</button>
+        </template>
+
+        <template v-else>
+          <router-link to="/login" class="nav-item login-btn">登入</router-link>
+          <router-link to="/register" class="nav-item register-btn">註冊</router-link>
+        </template>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <router-view></router-view>
     </main>
   </div>
 </template>
 
-<style>
-/* 全域設定 */
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f2f5;
-}
+<script setup>
+import { useAuthStore } from './stores/auth';
+import { useRouter } from 'vue-router';
 
+const authStore = useAuthStore();
+const router = useRouter();
+
+const handleLogout = () => {
+  // 1. 清除狀態與 Token
+  authStore.logout();
+
+  // 2. 強制跳轉回首頁 (或是登入頁)
+  router.push('/login');
+
+  // 3. (選用) 跳個通知
+  alert('您已成功登出');
+};
+</script>
+
+<style scoped>
 .app-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-header {
+  font-family: Arial, sans-serif;
   text-align: center;
-  margin-bottom: 30px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  color: #2c3e50;
 }
 
-h1 {
-  color: #333;
-  margin: 0 0 20px 0;
-}
-
-nav {
+.navbar {
+  background-color: #42b883;
+  padding: 1rem 2rem;
   display: flex;
-  justify-content: center;
-  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.nav-link {
-  text-decoration: none;
-  color: #555;
+.nav-brand {
+  color: white;
+  font-size: 1.5rem;
   font-weight: bold;
-  padding: 8px 16px;
-  border-radius: 20px;
-  transition: all 0.3s;
-  background-color: #f8f9fa;
 }
 
-/* 當連結被選中時的樣式 (Vue Router 會自動加上這個 class) */
-.router-link-active {
-  background-color: #4CAF50;
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  padding: 0;
+}
+
+.nav-item:hover {
+  opacity: 0.8;
+}
+
+/* 特別樣式：登入/註冊/登出按鈕 */
+.login-btn,
+.register-btn,
+.logout-btn {
+  background-color: white;
+  color: #42b883;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.logout-btn {
+  background-color: #e74c3c;
+  /* 紅色 */
   color: white;
 }
 
-.nav-link:hover:not(.router-link-active) {
-  background-color: #e9ecef;
-  color: #333;
+.main-content {
+  padding: 2rem;
 }
 </style>
