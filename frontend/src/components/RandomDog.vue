@@ -91,6 +91,7 @@ onMounted(() => {
   text-align: center;
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @apply dark:bg-gray-800 dark:text-white dark:border-gray-700;
 }
 
 .image-container {
@@ -103,6 +104,7 @@ onMounted(() => {
   background-color: #f9f9f9;
   border-radius: 8px;
   overflow: hidden;
+  @apply dark:bg-gray-700;
 }
 
 img {

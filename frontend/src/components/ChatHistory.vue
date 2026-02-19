@@ -84,6 +84,7 @@ onMounted(() => {
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    @apply dark:bg-gray-800 dark:text-white;
 }
 
 .header {
@@ -93,6 +94,7 @@ onMounted(() => {
     margin-bottom: 20px;
     border-bottom: 2px solid #f0f0f0;
     padding-bottom: 10px;
+    @apply dark:border-gray-700;
 }
 
 .header-actions {
@@ -137,6 +139,7 @@ onMounted(() => {
     border-radius: 8px;
     overflow: hidden;
     transition: transform 0.2s;
+    @apply dark:border-gray-700 dark:bg-gray-800;
 }
 
 .grid-item:hover {
@@ -183,6 +186,7 @@ onMounted(() => {
     text-align: center;
     background: #f9f9f9;
     border-top: 1px solid #eee;
+    @apply dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300;
 }
 
 .empty-state,

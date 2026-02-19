@@ -25,6 +25,7 @@
 
     <Teleport to="body">
       <ChatDrawer />
+      <ThemeToggle />
     </Teleport>
   </div>
 </template>
@@ -33,6 +34,7 @@
 import { useAuthStore } from './stores/auth';
 import { useRouter } from 'vue-router';
 import ChatDrawer from './components/ChatDrawer.vue';
+import ThemeToggle from './components/ThemeToggle.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -54,6 +56,8 @@ const handleLogout = () => {
   font-family: Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
+  min-height: 100vh;
+  @apply dark:text-white;
 }
 
 .navbar {

@@ -7,17 +7,18 @@
 
     <transition name="slide">
         <div v-if="chatStore.isOpen"
-            class="fixed inset-y-0 right-0 w-full md:w-[420px] bg-white shadow-2xl z-50 flex flex-col">
+            class="fixed inset-y-0 right-0 w-full md:w-[420px] bg-white dark:bg-gray-900 shadow-2xl z-50 flex flex-col transition-colors duration-300">
 
-            <header class="p-4 border-b flex items-center justify-between bg-white">
+            <header
+                class="p-4 border-b dark:border-gray-700 flex items-center justify-between bg-white dark:bg-gray-800 transition-colors duration-300">
                 <div class="flex items-center gap-3">
                     <img :src="chatStore.currentImageUrl" alt="Dog Thumbnail"
-                        class="w-12 h-12 rounded-lg object-cover shadow-sm border" />
-                    <h2 class="text-lg font-bold text-gray-800 tracking-wide">AI 狗狗助理</h2>
+                        class="w-12 h-12 rounded-lg object-cover shadow-sm border dark:border-gray-600" />
+                    <h2 class="text-lg font-bold text-gray-800 dark:text-white tracking-wide">AI 狗狗助理</h2>
                 </div>
                 <div class="flex items-center gap-1">
                     <button @click="chatStore.clearCurrentHistory"
-                        class="p-2 text-gray-400 hover:text-red-500 transition-colors rounded-full hover:bg-red-50"
+                        class="p-2 text-gray-400 hover:text-red-500 transition-colors rounded-full hover:bg-red-50 dark:hover:bg-red-900/20"
                         title="清空對話">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -26,7 +27,7 @@
                         </svg>
                     </button>
                     <button @click="chatStore.closeDrawer"
-                        class="p-2 text-gray-400 hover:text-gray-700 transition-colors rounded-full hover:bg-gray-100"
+                        class="p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
                         title="關閉">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -37,7 +38,9 @@
                 </div>
             </header>
 
-            <main class="flex-1 overflow-y-auto p-4 space-y-5 bg-gray-50 scroll-smooth" ref="chatContainer">
+            <main
+                class="flex-1 overflow-y-auto p-4 space-y-5 bg-gray-50 dark:bg-gray-900 scroll-smooth transition-colors duration-300"
+                ref="chatContainer">
                 <div v-if="chatStore.messages.length === 0 && !chatStore.isLoading"
                     class="text-center text-gray-400 mt-10 text-sm">
                     <p>這隻狗狗好可愛！✨<br>想知道牠是什麼品種，或是毛髮怎麼整理嗎？</p>
@@ -46,9 +49,10 @@
                 <div v-for="(msg, index) in chatStore.messages" :key="index" class="flex flex-col"
                     :class="msg.role === 'user' ? 'items-end' : 'items-start'">
                     <span class="text-xs text-gray-400 mb-1 px-1">{{ msg.role === 'user' ? '您' : 'AI 助理' }}</span>
-                    <div class="max-w-[85%] rounded-2xl px-4 py-2.5 shadow-sm" :class="msg.role === 'user'
-                        ? 'bg-blue-600 text-white rounded-tr-none'
-                        : 'bg-white text-gray-700 border border-gray-100 rounded-tl-none'">
+                    <div class="max-w-[85%] rounded-2xl px-4 py-2.5 shadow-sm transition-colors duration-300"
+                        :class="msg.role === 'user'
+                            ? 'bg-blue-600 text-white rounded-tr-none'
+                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-100 dark:border-gray-700 rounded-tl-none'">
                         <p class="whitespace-pre-wrap text-sm leading-relaxed">{{ msg.content }}</p>
                     </div>
                 </div>
@@ -56,7 +60,7 @@
                 <div v-if="chatStore.isLoading" class="flex flex-col items-start">
                     <span class="text-xs text-gray-400 mb-1 px-1">AI 助理思考中...</span>
                     <div
-                        class="bg-white border border-gray-100 rounded-2xl rounded-tl-none px-4 py-3.5 shadow-sm flex items-center gap-1.5">
+                        class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl rounded-tl-none px-4 py-3.5 shadow-sm flex items-center gap-1.5 transition-colors duration-300">
                         <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
                         <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
                             style="animation-delay: 0.15s"></span>
@@ -66,13 +70,13 @@
                 </div>
             </main>
 
-            <footer class="p-4 border-t bg-white">
+            <footer class="p-4 border-t dark:border-gray-700 bg-white dark:bg-gray-800 transition-colors duration-300">
                 <div v-if="chatStore.error" class="text-red-500 text-xs mb-2 text-center">
                     {{ chatStore.error }}
                 </div>
                 <form @submit.prevent="handleSend" class="flex gap-2 relative">
                     <input v-model="prompt" type="text" placeholder="輸入您的問題..."
-                        class="flex-1 border border-gray-300 rounded-full pl-5 pr-12 py-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm transition-shadow shadow-sm"
+                        class="flex-1 border border-gray-300 dark:border-gray-600 rounded-full pl-5 pr-12 py-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm transition-shadow shadow-sm bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                         :disabled="chatStore.isLoading" />
                     <button type="submit"
                         class="absolute right-1.5 top-1.5 bottom-1.5 aspect-square bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors disabled:bg-gray-300 shadow-sm"

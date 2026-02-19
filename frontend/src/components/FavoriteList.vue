@@ -112,6 +112,7 @@ onMounted(() => {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @apply dark:bg-gray-800 dark:text-white;
 }
 
 .header {
@@ -121,6 +122,7 @@ onMounted(() => {
   margin-bottom: 20px;
   border-bottom: 2px solid #f0f0f0;
   padding-bottom: 10px;
+  @apply dark:border-gray-700;
 }
 
 .grid {
@@ -136,6 +138,7 @@ onMounted(() => {
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.2s;
+  @apply dark:border-gray-700 dark:bg-gray-800;
 }
 
 .grid-item:hover {
@@ -216,11 +219,13 @@ onMounted(() => {
   max-width: 400px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @apply dark:bg-gray-800 dark:text-white;
 }
 
 .modal-content h3 {
   margin-top: 0;
   color: #333;
+  @apply dark:text-white;
 }
 
 .modal-actions {
@@ -242,6 +247,7 @@ onMounted(() => {
 .btn-cancel {
   background-color: #e0e0e0;
   color: #333;
+  @apply dark:bg-gray-600 dark:text-white;
 }
 
 .btn-confirm-delete {
