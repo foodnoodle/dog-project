@@ -31,5 +31,19 @@ export const chatApi = {
         return api.delete('/api/chat/ask/', {
             data: { image_url: imageUrl }
         });
+    },
+
+    /**
+     * 獲取所有對話紀錄列表
+     */
+    getAllSessions() {
+        return api.get('/api/chat/ask/');
+    },
+
+    /**
+     * 清除所有對話紀錄
+     */
+    deleteAllSessions() {
+        return api.delete('/api/chat/ask/');
     }
 };

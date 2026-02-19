@@ -8,6 +8,7 @@
         <template v-if="authStore.isAuthenticated">
           <router-link to="/profile" class="nav-item">個人資料</router-link>
           <router-link to="/favorites" class="nav-item">我的收藏</router-link>
+          <router-link to="/history" class="nav-item">對話紀錄</router-link>
           <button @click="handleLogout" class="nav-item logout-btn">登出</button>
         </template>
 

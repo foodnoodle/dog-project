@@ -22,6 +22,15 @@ class ChatSessionSerializer(serializers.ModelSerializer):
         fields = ['id', 'image_url', 'created_at', 'messages']
         read_only_fields = ['id', 'created_at', 'messages']
 
+class ChatSessionListSerializer(serializers.ModelSerializer):
+    """
+    用於列表顯示的輕量級序列化器，不包含詳細訊息。
+    """
+    class Meta:
+        model = ChatSession
+        fields = ['id', 'image_url', 'created_at']
+        read_only_fields = ['id', 'created_at']
+
 class ChatInputSerializer(serializers.Serializer):
     """專門用於定義發問時的輸入格式"""
     image_url = serializers.URLField(help_text="狗狗圖片的網址")

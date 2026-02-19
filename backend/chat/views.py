@@ -6,7 +6,7 @@ from rest_framework import status, permissions
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from .models import ChatSession, ChatMessage
-from .serializers import ChatSessionSerializer, ChatInputSerializer
+from .serializers import ChatSessionSerializer, ChatInputSerializer, ChatSessionListSerializer
 
 # 引入全新世代的 Google SDK
 from google import genai
@@ -23,14 +23,24 @@ class ChatView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        """獲取特定圖片的歷史對話紀錄"""
+        """
+        獲取對話紀錄
+        - 若提供 image_url: 回傳該圖片的詳細對話紀錄。
+        - 若未提供 image_url: 回傳使用者的「所有」對話階段列表 (List)。
+        """
         image_url = request.query_params.get('image_url')
-        if not image_url:
-            return Response({"error": "請提供 image_url"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        session, _ = ChatSession.objects.get_or_create(user=request.user, image_url=image_url)
-        serializer = ChatSessionSerializer(session)
-        return Response(serializer.data)
+
+        if image_url:
+            # 有指定圖片 -> 獲取單一對話詳情
+            session, _ = ChatSession.objects.get_or_create(user=request.user, image_url=image_url)
+            serializer = ChatSessionSerializer(session)
+            return Response(serializer.data)
+        else:
+            # 未指定圖片 -> 獲取對話列表
+            # 過濾掉沒有任何訊息的空 Session
+            sessions = ChatSession.objects.filter(user=request.user, messages__isnull=False).distinct()
+            serializer = ChatSessionListSerializer(sessions, many=True)
+            return Response(serializer.data)
 
     @extend_schema(
         request=ChatInputSerializer, 
@@ -90,11 +100,19 @@ class ChatView(APIView):
             return Response({"error": f"AI 處理失敗: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def delete(self, request):
-        """清空特定圖片的對話紀錄"""
+        """
+        刪除對話紀錄
+        - 若提供 image_url: 刪除該圖片的對話紀錄。
+        - 若未提供 image_url: (危險操作) 刪除使用者「所有」對話紀錄。
+        """
         image_url = request.data.get('image_url')
-        if not image_url:
-            return Response({"error": "請提供 image_url"}, status=status.HTTP_400_BAD_REQUEST)
 
-        session = get_object_or_404(ChatSession, user=request.user, image_url=image_url)
-        session.messages.all().delete()
-        return Response({"message": "對話紀錄已成功清空"}, status=status.HTTP_204_NO_CONTENT)
+        if image_url:
+            # 刪除單一圖片的對話
+            session = get_object_or_404(ChatSession, user=request.user, image_url=image_url)
+            session.messages.all().delete()
+            return Response({"message": "對話紀錄已成功清空"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            # 刪除所有圖片的對話
+            ChatSession.objects.filter(user=request.user).delete()
+            return Response({"message": "所有對話紀錄已全部刪除"}, status=status.HTTP_204_NO_CONTENT)
