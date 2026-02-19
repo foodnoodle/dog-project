@@ -54,7 +54,8 @@ INSTALLED_APPS = [
  
     # 自訂義的應用程式
     # 剛建立的本地 App，在此註冊後 Django 才能識別其模型與路由。
-    'api',  
+    'api', 
+    'chat', 
 ]
 
 MIDDLEWARE = [
