@@ -11,7 +11,7 @@ API 根索引：DefaultRouter 會額外提供一個自動生成的 API Root 頁�
 """
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import DogImageViewSet
+from .views import DogImageViewSet, UserDeleteView
 
 # 初始化一個 DRF 的路由器 (Router)，用於自動生成 API 路由。
 router = DefaultRouter()
@@ -30,4 +30,7 @@ router.register(r'dogs', DogImageViewSet)
 urlpatterns = [
     # include(router.urls) 會自動引入多組路由（如 list, create, detail 等）
     path('',include(router.urls)),
+    
+    # 使用者刪除帳號的路由
+    path('auth/user/delete/', UserDeleteView.as_view(), name='user-delete'),
 ]

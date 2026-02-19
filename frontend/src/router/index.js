@@ -36,6 +36,15 @@ const router = createRouter({
       meta: {
         requiresAuth: true // 加上「需要權限」的標籤 (meta field)
       }
+    },
+
+    {
+      path: '/profile', // 個人資料頁
+      name: 'profile',
+      component: () => import('../views/ProfileView.vue'), // Lazy load
+      meta: {
+        requiresAuth: true
+      }
     }
 
   ]

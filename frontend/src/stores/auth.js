@@ -68,6 +68,23 @@ export const useAuthStore = defineStore('auth', {
             }
         },
 
+        // === 刪除帳號功能 ===
+        async deleteAccount() {
+            try {
+                // 呼叫後端刪除 API
+                // 這是我們剛剛在後端新增的路由
+                await api.delete('/api/auth/user/delete/');
+
+                // 刪除成功後，執行登出動作以清除狀態
+                this.logout();
+
+                return true;
+            } catch (error) {
+                console.error('刪除帳號失敗:', error);
+                throw error;
+            }
+        },
+
         // === 登出功能 ===
         logout() {
             // 1. 清空狀態

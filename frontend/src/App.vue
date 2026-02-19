@@ -6,6 +6,7 @@
         <router-link to="/" class="nav-item">首頁 (抽卡)</router-link>
 
         <template v-if="authStore.isAuthenticated">
+          <router-link to="/profile" class="nav-item">個人資料</router-link>
           <router-link to="/favorites" class="nav-item">我的收藏</router-link>
           <button @click="handleLogout" class="nav-item logout-btn">登出</button>
         </template>

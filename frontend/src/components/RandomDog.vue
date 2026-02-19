@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import api from '../utils/api'; // 引入我們封裝好的 api 工具
 import axios from 'axios'; // 引入 axios，為了抓取外部 API 的圖片
-import { useAuthStore } from '../stores/auth'; // [新增]引入 auth store
+import { useAuthStore } from '../stores/auth'; // 引入 auth store
 
 const dogImage = ref('');
 const authStore = useAuthStore(); // 初始化 auth store
@@ -11,7 +11,7 @@ const authStore = useAuthStore(); // 初始化 auth store
 const fetchNewDog = async () => {
   try {
     // 這裡雖然是外部網址，但 api 實體一樣可以處理。
-    // Axios 特性：如果網址是以 http 開頭，它會忽略 baseURL，直接使用完整網址。
+    // 使用 axios.get 來抓取外部 API 的圖片
     const response = await axios.get('https://dog.ceo/api/breeds/image/random');
     dogImage.value = response.data.message;
   } catch (error) {

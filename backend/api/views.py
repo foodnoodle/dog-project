@@ -65,3 +65,20 @@ class DogImageViewSet(viewsets.ModelViewSet):
     # 3. 自動標記：存檔時，自動把 owner 填成目前登入的使用者
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+# 使用者刪除帳號的 View
+# 使用 generics.DestroyAPIView，這是 DRF 專門用來處理「刪除」動作的通用視圖
+from rest_framework import generics
+
+@extend_schema(
+    summary="刪除使用者帳號",
+    description="永久刪除當前登入使用者的帳號及所有相關資料 (例如收藏的圖片)。此動作無法復原。",
+    responses={204: None}
+)
+class UserDeleteView(generics.DestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    # 覆寫 get_object，不需從 URL 讀取 ID，直接回傳「當前登入的使用者」
+    # 這樣可以確保使用者只能刪除「自己」的帳號
+    def get_object(self):
+        return self.request.user
