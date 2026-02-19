@@ -1,8 +1,19 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import api from '../utils/api'; // 引入我們封裝好的 api 工具，不再使用 axios
+import { useAuthStore } from '../stores/auth';
+import { useChatStore } from '../stores/chatStore';
 
 const dogs = ref([]); // 存放從後端抓回來的圖片列表
+const authStore = useAuthStore();
+const chatStore = useChatStore();
+
+// 0. 打開 AI 對話
+const openChat = (url) => {
+  if (url) {
+    chatStore.openDrawer(url);
+  }
+};
 
 // 1. 獲取收藏列表 (GET)
 const fetchFavorites = async () => {
@@ -52,7 +63,10 @@ onMounted(() => {
     <div class="grid">
       <div v-for="dog in dogs" :key="dog.id" class="grid-item">
         <img :src="dog.url" alt="Saved Dog" />
-        <button @click="deleteDog(dog.id)" class="btn-delete">刪除</button>
+        <div class="actions">
+          <button @click="openChat(dog.url)" class="btn-chat" v-if="authStore.isAuthenticated">✨ 詢問 AI</button>
+          <button @click="deleteDog(dog.id)" class="btn-delete">刪除</button>
+        </div>
       </div>
     </div>
   </div>
@@ -103,19 +117,33 @@ onMounted(() => {
   display: block;
 }
 
-.btn-delete {
-  width: 100%;
-  padding: 8px;
-  background-color: #ff5252;
-  color: white;
-  border: none;
-  cursor: pointer;
-  opacity: 0.9;
+.actions {
+  display: flex;
+  flex-direction: column;
 }
 
-.btn-delete:hover {
-  opacity: 1;
-  background-color: #d32f2f;
+.btn-delete,
+.btn-chat {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 0.9rem;
+  transition: opacity 0.2s;
+}
+
+.btn-delete {
+  background-color: #ff5252;
+}
+
+.btn-chat {
+  background-color: #2196F3;
+}
+
+.btn-delete:hover,
+.btn-chat:hover {
+  opacity: 0.9;
 }
 
 .btn-refresh {

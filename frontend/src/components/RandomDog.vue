@@ -75,7 +75,7 @@ onMounted(() => {
     <div class="button-group">
       <button @click="fetchNewDog" class="btn-refresh">換一張</button>
       <button @click="saveDog" class="btn-save">收藏這張</button>
-      <button @click="openChat" class="btn-chat" v-if="dogImage">✨ 詢問 AI</button>
+      <button @click="openChat" class="btn-chat" v-if="dogImage && authStore.isAuthenticated">✨ 詢問 AI</button>
     </div>
   </div>
 </template>
