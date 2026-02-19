@@ -12,8 +12,8 @@ const api = axios.create({
   // 如果忘記設定 .env，這裡給一個空字串作為備用，避免程式直接崩潰
   baseURL: import.meta.env.VITE_API_BASE_URL || '',
 
-  // 2. 超時設定：請求超過 10 秒無回應則自動中斷 (單位：毫秒)
-  timeout: 10000,
+  // 2. 超時設定：請求超過 120 秒無回應則自動中斷 (單位：毫秒)
+  timeout: 120000,
 
   // 3. 預設標頭：告訴後端我們傳送的是 JSON 格式資料
   headers: {
