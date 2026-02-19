@@ -42,7 +42,11 @@ export const useChatStore = defineStore('chat', {
                 // 後端序列化器回傳的資料中包含 messages 陣列
                 this.messages = response.data.messages || [];
             } catch (err) {
-                this.error = '無法載入歷史對話';
+                if (err.response && err.response.data && err.response.data.error) {
+                    this.error = err.response.data.error;
+                } else {
+                    this.error = '無法載入歷史對話';
+                }
                 console.error('Fetch history error:', err);
             } finally {
                 this.isLoading = false;
@@ -68,7 +72,11 @@ export const useChatStore = defineStore('chat', {
                 // 3. 將 AI 的回覆加入對話陣列中
                 this.messages.push({ role: 'model', content: response.data.response });
             } catch (err) {
-                this.error = 'AI 回覆失敗，請稍後再試';
+                if (err.response && err.response.data && err.response.data.error) {
+                    this.error = err.response.data.error;
+                } else {
+                    this.error = 'AI 回覆失敗，請稍後再試';
+                }
                 console.error('Send message error:', err);
                 // 專業做法：若發送失敗，可以選擇在此移除剛才樂觀更新的訊息，或加上錯誤標記
             } finally {
@@ -86,7 +94,11 @@ export const useChatStore = defineStore('chat', {
                 await chatApi.clearHistory(this.currentImageUrl);
                 this.messages = []; // 清空前端畫面
             } catch (err) {
-                this.error = '清空歷史紀錄失敗';
+                if (err.response && err.response.data && err.response.data.error) {
+                    this.error = err.response.data.error;
+                } else {
+                    this.error = '清空歷史紀錄失敗';
+                }
                 console.error('Clear history error:', err);
             } finally {
                 this.isLoading = false;
