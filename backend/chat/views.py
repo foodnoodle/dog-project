@@ -1,3 +1,100 @@
-from django.shortcuts import render
+import os
+import requests
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status, permissions
+from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
+from .models import ChatSession, ChatMessage
+from .serializers import ChatSessionSerializer, ChatInputSerializer
 
-# Create your views here.
+# 引入全新世代的 Google SDK
+from google import genai
+from google.genai import types
+
+# 初始化新版客戶端
+client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+
+class ChatView(APIView):
+    """
+    狗狗 AI 對話介面
+    提供針對狗狗圖片的發問、歷史紀錄獲取與清空功能。
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        """獲取特定圖片的歷史對話紀錄"""
+        image_url = request.query_params.get('image_url')
+        if not image_url:
+            return Response({"error": "請提供 image_url"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        session, _ = ChatSession.objects.get_or_create(user=request.user, image_url=image_url)
+        serializer = ChatSessionSerializer(session)
+        return Response(serializer.data)
+
+    @extend_schema(
+        request=ChatInputSerializer, 
+        responses={201: ChatSessionSerializer},
+        description="傳送狗狗圖片網址與問題，獲取 AI 的多模態回覆"
+    )
+    def post(self, request):
+        """針對狗狗圖片進行 AI 多模態發問 (Gemini 2.5 Flash)"""
+        image_url = request.data.get('image_url')
+        prompt = request.data.get('prompt')
+
+        if not image_url or not prompt:
+            return Response({"error": "缺少 image_url 或 prompt"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # 1. 獲取 Session
+        session, _ = ChatSession.objects.get_or_create(user=request.user, image_url=image_url)
+
+        # 2. 準備新版 SDK 要求的歷史紀錄格式 (types.Content)
+        history_messages = session.messages.all().order_by('created_at')
+        gemini_history = []
+        for msg in history_messages:
+            gemini_history.append(
+                types.Content(
+                    role="user" if msg.role == "user" else "model",
+                    parts=[types.Part.from_text(text=msg.content)]
+                )
+            )
+
+        try:
+            # 3. 下載圖片
+            img_response = requests.get(image_url)
+            img_response.raise_for_status()
+            
+            # 新版 SDK 處理圖片二進位的專屬寫法
+            img_part = types.Part.from_bytes(
+                data=img_response.content, 
+                mime_type='image/jpeg'
+            )
+
+            # 4. 建立對話，並指定最新版的模型 gemini-2.5-flash
+            chat = client.chats.create(
+                model='gemini-2.5-flash',
+                history=gemini_history
+            )
+            
+            # 5. 發送文字與圖片多模態陣列
+            ai_response = chat.send_message([prompt, img_part])
+            ai_text = ai_response.text
+
+            # 6. 永久化儲存
+            ChatMessage.objects.create(session=session, role='user', content=prompt)
+            ChatMessage.objects.create(session=session, role='model', content=ai_text)
+
+            return Response({"response": ai_text}, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({"error": f"AI 處理失敗: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def delete(self, request):
+        """清空特定圖片的對話紀錄"""
+        image_url = request.data.get('image_url')
+        if not image_url:
+            return Response({"error": "請提供 image_url"}, status=status.HTTP_400_BAD_REQUEST)
+
+        session = get_object_or_404(ChatSession, user=request.user, image_url=image_url)
+        session.messages.all().delete()
+        return Response({"message": "對話紀錄已成功清空"}, status=status.HTTP_204_NO_CONTENT)
