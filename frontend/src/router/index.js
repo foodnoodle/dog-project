@@ -45,6 +45,15 @@ const router = createRouter({
       meta: {
         requiresAuth: true
       }
+    },
+
+    {
+      path: '/history', // 對話紀錄頁
+      name: 'history',
+      component: () => import('../components/ChatHistory.vue'), // Lazy load
+      meta: {
+        requiresAuth: true
+      }
     }
 
   ]

@@ -25,6 +25,8 @@ urlpatterns = [
     path('api/auth/', include('dj_rest_auth.urls')),    # 登入、登出、密碼重設
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')), # 註冊
     
+    path('api/chat/', include('chat.urls')), # 將 chat.urls 的路由配置包含進來，前綴為 'api/chat/'
+
     # --- 以下為 API 文件路由 ---
     # 1. 生成 OpenAPI Schema (YAML 格式的定義檔)
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

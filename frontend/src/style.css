@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Reset default browser styles */
 * {
     box-sizing: border-box;
@@ -9,4 +13,5 @@ body {
     width: 100%;
     font-family: Arial, sans-serif;
     /* Consistency with App.vue */
+    @apply dark:bg-gray-900 dark:text-white transition-colors duration-300;
 }

@@ -15,6 +15,7 @@
 ### ⚡ 前端技術 (Frontend)
 
 * **開發框架**: **Vue 3.5.24**，採用 **SFC (Single File Components)** 與 **Composition API (`<script setup>`)** 模式開發。
+* **樣式框架**: **Tailwind CSS 3.4.17**，搭配 **PostCSS** 與 **Autoprefixer** 進行現代化 CSS 開發。
 * **狀態管理**: **Pinia 3.0.4**，用於全域管理使用者登入狀態 (Auth Store) 與收藏資料。
 * **構建工具**: **Vite 7.2.4**，提供極速的開發環境熱重載與優化的生產環境打包。
 * **前端路由**: **Vue Router 4.6.4**，管理「首頁」、「收藏頁」、「登入/註冊」之間的視圖切換，並實作導航守衛 (Navigation Guards) 保護私人頁面。
@@ -25,6 +26,8 @@
 * **執行環境**: **Python 3.12**
 * **Web 框架**: **Django 6.0.2**，負責處理後端邏輯與資料庫互動。
 * **API 框架**: **Django REST Framework (DRF) 3.16.1**，用於構建 RESTful API 介面，並透過 `ModelViewSet` 與 `DefaultRouter` 實現自動化路由與 CRUD 功能。
+* **API 文件**: **drf-spectacular 0.29.0**，自動生成符合 OpenAPI 3.0 標準的 API Schema 與 Swagger/Redoc 互動式文件。
+* **AI 整合**: **Google GenAI SDK 1.64.0**，整合 Google Gemini 模型以提供智慧對話功能。
 * **認證系統**: **dj-rest-auth** 與 **django-allauth**，提供標準化的會員註冊、登入與 Token 驗證機制。
 * **套件管理**: 使用 **uv** 作為現代化的 Python 套件管理與虛擬環境建置工具。
 * **跨網域處理**: 透過 **django-cors-headers** 解決前後端分離產生的 CORS (跨網域資源共享) 問題。
@@ -190,7 +193,13 @@ npm run dev
 * 提供「刪除」功能，可直接從後端資料庫移除指定的收藏項目。
 
 
-### 4. **響應式網格佈局**:
+### 4. **AI 狗狗諮詢 (AI Dog Consultation)**:
+* 整合 Google Gemini AI 模型，提供智慧化的狗狗飼養諮詢服務。
+* **對話紀錄 (Chat History)**: 自動保存使用者的諮詢歷史，方便隨時回顧。
+* **個人資料與設定 (Profile & Settings)**: 允許使用者管理個人資訊與偏好設定。
+
+
+### 5. **響應式網格佈局**:
 * 收藏列表具備響應式設計，能在不同裝置螢幕下自動調整圖片排列順序。
 
 ---
@@ -200,16 +209,20 @@ npm run dev
 dog-project/
 ├── backend/            # Django 後端程式碼 (Python 3.12 + DRF)
 │   ├── api/            # 核心 API 邏輯 (Models, Views, Serializers)
+│   ├── chat/           # AI 聊天功能 (Views, URLs)
 │   ├── config/         # 專案全域設定
 │   ├── pyproject.toml  # uv 套件管理配置
 │   ├── uv.lock         # uv 鎖定檔
 │   ├── manage.py       # Django 管理指令
+│   ├── check_models.py # 模型檢查工具
 │   └── Dockerfile      # 後端容器定義
 ├── frontend/           # Vue 3 前端程式碼 (Vite 構建)
 │   ├── src/            # 前端源碼 (Components, Views, Router)
 │   ├── public/         # 靜態資源
 │   ├── index.html      # Vue 入口 HTML
 │   ├── vite.config.js  # Vite 設定檔
+│   ├── tailwind.config.js # Tailwind CSS 設定檔
+│   ├── postcss.config.js  # PostCSS 設定檔
 │   ├── package.json    # 前端相依性與指令配置
 │   └── Dockerfile      # 前端容器定義
 ├── images/             # 專案與教學文件的圖片存儲
@@ -241,6 +254,9 @@ dog-project/
 * `PUT /api/dogs/{id}/`: **修改圖片資訊 (完整)**。 更新特定收藏的完整內容。
 * `PATCH /api/dogs/{id}/`: **修改圖片資訊 (部分)**。 更新特定收藏的部分欄位。
 * `DELETE /api/dogs/{id}/`: **移除收藏**。 將指定圖片從資料庫中永久刪除。
+
+### **AI 聊天功能 (Chat)**
+* `POST /api/chat/ask/`: **發送對話**。 接收使用者輸入並透過 Google Gemini 模型產生回應。
 
 
 ### **API 互動式文件 (OpenAPI)**

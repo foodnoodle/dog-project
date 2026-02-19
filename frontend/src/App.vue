@@ -8,6 +8,7 @@
         <template v-if="authStore.isAuthenticated">
           <router-link to="/profile" class="nav-item">個人資料</router-link>
           <router-link to="/favorites" class="nav-item">我的收藏</router-link>
+          <router-link to="/history" class="nav-item">對話紀錄</router-link>
           <button @click="handleLogout" class="nav-item logout-btn">登出</button>
         </template>
 
@@ -21,12 +22,19 @@
     <main class="main-content">
       <router-view></router-view>
     </main>
+
+    <Teleport to="body">
+      <ChatDrawer />
+      <ThemeToggle />
+    </Teleport>
   </div>
 </template>
 
 <script setup>
 import { useAuthStore } from './stores/auth';
 import { useRouter } from 'vue-router';
+import ChatDrawer from './components/ChatDrawer.vue';
+import ThemeToggle from './components/ThemeToggle.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -48,6 +56,8 @@ const handleLogout = () => {
   font-family: Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
+  min-height: 100vh;
+  @apply dark:text-white;
 }
 
 .navbar {

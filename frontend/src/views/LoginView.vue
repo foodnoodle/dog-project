@@ -25,8 +25,9 @@
       </form>
 
       <div class="tips">
-        <p>還沒有帳號？ <router-link to="/register">立即註冊</router-link></p>
-        <p class="test-account">測試帳號：TestUser2024 / 密碼：TestUser2024</p>
+        <p class="tip_message">還沒有帳號？ <router-link to="/register">立即註冊</router-link></p>
+        <p class="test-account">測試帳號：TestUser2024</p>
+        <p class="test-account">密碼：MyDogProject01</p>
       </div>
     </div>
   </div>
@@ -92,11 +93,13 @@ const handleLogin = async () => {
   width: 100%;
   max-width: 400px;
   text-align: center;
+  @apply dark:bg-gray-800 dark:text-white;
 }
 
 h2 {
   margin-bottom: 1.5rem;
   color: #2c3e50;
+  @apply dark:text-white;
 }
 
 .form-group {
@@ -109,6 +112,7 @@ label {
   margin-bottom: 0.5rem;
   font-weight: 600;
   color: #34495e;
+  @apply dark:text-gray-300;
 }
 
 input {
@@ -120,16 +124,19 @@ input {
   transition: border-color 0.3s;
   box-sizing: border-box;
   /* 確保 padding 不會撐爆寬度 */
+  @apply dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400;
 }
 
 input:focus {
   border-color: #42b883;
   outline: none;
+  @apply dark:border-green-500;
 }
 
 input:disabled {
   background-color: #f8f9fa;
   cursor: not-allowed;
+  @apply dark:bg-gray-600 dark:text-gray-400;
 }
 
 .submit-btn {
@@ -170,6 +177,7 @@ input:disabled {
   color: #7f8c8d;
   border-top: 1px solid #eee;
   padding-top: 1rem;
+  @apply dark:border-gray-700 dark:text-gray-400;
 }
 
 a {
@@ -185,6 +193,10 @@ a:hover {
 .test-account {
   font-size: 0.8rem;
   color: #bdc3c7;
-  margin-top: 0.5rem;
+  @apply dark:text-gray-500;
+}
+
+.tip_message {
+  margin-bottom: 0.5rem;
 }
 </style>

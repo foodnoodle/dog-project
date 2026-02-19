@@ -3,9 +3,18 @@ import { ref, onMounted } from 'vue';
 import api from '../utils/api'; // 引入我們封裝好的 api 工具
 import axios from 'axios'; // 引入 axios，為了抓取外部 API 的圖片
 import { useAuthStore } from '../stores/auth'; // 引入 auth store
+import { useChatStore } from '../stores/chatStore'; // 引入 chat store
 
 const dogImage = ref('');
 const authStore = useAuthStore(); // 初始化 auth store
+const chatStore = useChatStore(); // 初始化 chat store
+
+// 0. 打開 AI 對話
+const openChat = () => {
+  if (dogImage.value) {
+    chatStore.openDrawer(dogImage.value);
+  }
+};
 
 // 1. 抓取隨機圖片
 const fetchNewDog = async () => {
@@ -66,6 +75,7 @@ onMounted(() => {
     <div class="button-group">
       <button @click="fetchNewDog" class="btn-refresh">換一張</button>
       <button @click="saveDog" class="btn-save">收藏這張</button>
+      <button @click="openChat" class="btn-chat" v-if="dogImage && authStore.isAuthenticated">✨ 詢問 AI</button>
     </div>
   </div>
 </template>
@@ -81,6 +91,7 @@ onMounted(() => {
   text-align: center;
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @apply dark:bg-gray-800 dark:text-white dark:border-gray-700;
 }
 
 .image-container {
@@ -93,6 +104,7 @@ onMounted(() => {
   background-color: #f9f9f9;
   border-radius: 8px;
   overflow: hidden;
+  @apply dark:bg-gray-700;
 }
 
 img {
@@ -127,7 +139,11 @@ button:hover {
 
 .btn-save {
   background-color: #9c27b0;
-  ;
+  color: white;
+}
+
+.btn-chat {
+  background-color: #2196F3;
   color: white;
 }
 </style>

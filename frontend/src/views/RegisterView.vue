@@ -114,11 +114,13 @@ const handleRegister = async () => {
     width: 100%;
     max-width: 400px;
     text-align: center;
+    @apply dark:bg-gray-800 dark:text-white;
 }
 
 h2 {
     margin-bottom: 1.5rem;
     color: #2c3e50;
+    @apply dark:text-white;
 }
 
 .form-group {
@@ -131,6 +133,7 @@ label {
     margin-bottom: 0.5rem;
     font-weight: 600;
     color: #34495e;
+    @apply dark:text-gray-300;
 }
 
 input {
@@ -140,11 +143,13 @@ input {
     border-radius: 8px;
     font-size: 1rem;
     box-sizing: border-box;
+    @apply dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400;
 }
 
 input:focus {
     border-color: #42b883;
     outline: none;
+    @apply dark:border-blue-500;
 }
 
 .submit-btn {
@@ -184,6 +189,7 @@ input:focus {
     color: #7f8c8d;
     border-top: 1px solid #eee;
     padding-top: 1rem;
+    @apply dark:border-gray-700 dark:text-gray-400;
 }
 
 a {

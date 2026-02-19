@@ -54,7 +54,8 @@ INSTALLED_APPS = [
  
     # 自訂義的應用程式
     # 剛建立的本地 App，在此註冊後 Django 才能識別其模型與路由。
-    'api',  
+    'api', 
+    'chat', 
 ]
 
 MIDDLEWARE = [
@@ -147,11 +148,17 @@ REST_FRAMEWORK = {
 
 # Spectacular 設定 (API 文件資訊)
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Dog Project API',
-    'DESCRIPTION': '這是 Dog Project 的後端 API 文件，提供狗狗資料的查詢與操作功能。',
+'TITLE': '狗狗收藏館 API 文件',
+    'DESCRIPTION': '這是一個提供隨機狗狗圖片瀏覽、收藏以及 AI 多模態對話功能的系統 API。',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False, # 在 API 文件頁面中隱藏 Schema 本身的端點
-    # 其他設定可參考官方文件
+    # 這裡可以設定標籤排序或其它顯示設定
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'displayOperationId': True,
+        'defaultModelsExpandDepth': 1,
+        'defaultModelExpandDepth': 1,
+    },
 }
 
 # =========================================

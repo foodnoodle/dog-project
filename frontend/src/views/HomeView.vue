@@ -17,5 +17,6 @@ import RandomDog from '../components/RandomDog.vue';
   text-align: center;
   margin-bottom: 20px;
   color: #555;
+  @apply dark:text-gray-300;
 }
 </style>
