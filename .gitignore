@@ -13,3 +13,6 @@ frontend/.env
 # Obsidian
 # 忽略所有 .obsidian 資料夾
 .obsidian/
+
+# Agent
+.agent/
