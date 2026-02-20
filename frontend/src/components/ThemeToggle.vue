@@ -1,6 +1,6 @@
 <template>
     <button @click="toggleTheme"
-        class="fixed bottom-4 left-4 p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 z-50 border border-gray-200 dark:border-gray-700"
+        class="fixed bottom-4 left-4 p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 z-30 border border-gray-200 dark:border-gray-700"
         :title="isDark ? '切換為亮色模式' : '切換為深色模式'">
         <!-- Sun Icon for Dark Mode -->
         <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" fill="none"

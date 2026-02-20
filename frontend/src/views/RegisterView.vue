@@ -1,7 +1,7 @@
 <template>
-    <div class="min-h-[80vh] flex justify-center items-center p-4">
+    <div class="min-h-[80vh] flex justify-center items-center px-4 sm:p-4">
         <div
-            class="bg-white dark:bg-slate-800 p-8 sm:p-10 rounded-3xl shadow-xl w-full max-w-md text-center border border-slate-100 dark:border-slate-700 transition-all">
+            class="bg-white dark:bg-slate-800 p-6 sm:p-10 rounded-3xl shadow-xl w-full max-w-md text-center border border-slate-100 dark:border-slate-700 transition-all">
             <h2 class="text-2xl font-display font-bold text-slate-800 dark:text-white mb-8">📝 新會員註冊</h2>
 
             <form @submit.prevent="handleRegister" class="space-y-6">

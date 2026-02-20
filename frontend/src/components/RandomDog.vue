@@ -105,7 +105,7 @@ onMounted(() => {
           <span class="mr-2 group-hover:rotate-180 transition-transform duration-300 inline-block">🎲</span> 換一張
         </button>
 
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <button @click="saveDog" class="btn-secondary">
             💖 收藏這張
           </button>
@@ -120,21 +120,17 @@ onMounted(() => {
 
   <!-- 美化版 Toast 提示框 -->
   <Teleport to="body">
-    <transition
-      enter-active-class="transition ease-out duration-300 transform"
-      enter-from-class="translate-y-12 opacity-0 scale-95"
-      enter-to-class="translate-y-0 opacity-100 scale-100"
+    <transition enter-active-class="transition ease-out duration-300 transform"
+      enter-from-class="translate-y-12 opacity-0 scale-95" enter-to-class="translate-y-0 opacity-100 scale-100"
       leave-active-class="transition ease-in duration-200 transform"
-      leave-from-class="translate-y-0 opacity-100 scale-100"
-      leave-to-class="translate-y-12 opacity-0 scale-95"
-    >
-      <div v-if="toast.show" 
-           class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] px-6 py-3.5 min-w-[280px] text-center rounded-2xl shadow-2xl font-medium text-sm sm:text-base border backdrop-blur-xl flex items-center justify-center gap-2"
-           :class="{
-             'bg-emerald-50/95 dark:bg-emerald-900/80 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700/50 shadow-emerald-500/20': toast.type === 'success',
-             'bg-red-50/95 dark:bg-red-900/80 text-red-700 dark:text-red-300 border-red-200 dark:border-red-700/50 shadow-red-500/20': toast.type === 'error',
-             'bg-amber-50/95 dark:bg-amber-900/80 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700/50 shadow-amber-500/20': toast.type === 'warning'
-           }">
+      leave-from-class="translate-y-0 opacity-100 scale-100" leave-to-class="translate-y-12 opacity-0 scale-95">
+      <div v-if="toast.show"
+        class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] px-6 py-3.5 min-w-[280px] text-center rounded-2xl shadow-2xl font-medium text-sm sm:text-base border backdrop-blur-xl flex items-center justify-center gap-2"
+        :class="{
+          'bg-emerald-50/95 dark:bg-emerald-900/80 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700/50 shadow-emerald-500/20': toast.type === 'success',
+          'bg-red-50/95 dark:bg-red-900/80 text-red-700 dark:text-red-300 border-red-200 dark:border-red-700/50 shadow-red-500/20': toast.type === 'error',
+          'bg-amber-50/95 dark:bg-amber-900/80 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700/50 shadow-amber-500/20': toast.type === 'warning'
+        }">
         <span>{{ toast.message }}</span>
       </div>
     </transition>
