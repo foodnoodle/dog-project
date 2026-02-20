@@ -18,7 +18,7 @@
 * **樣式框架**: **Tailwind CSS 3.4.17**，搭配 **PostCSS** 與 **Autoprefixer** 進行現代化 CSS 開發。
 * **狀態管理**: **Pinia 3.0.4**，用於全域管理使用者登入狀態 (Auth Store) 與收藏資料。
 * **構建工具**: **Vite 7.2.4**，提供極速的開發環境熱重載與優化的生產環境打包。
-* **前端路由**: **Vue Router 4.6.4**，管理「首頁」、「收藏頁」、「登入/註冊」之間的視圖切換，並實作導航守衛 (Navigation Guards) 保護私人頁面。
+* **前端路由**: **Vue Router 4.6.4**，管理「首頁」、「收藏頁」、「個人資料頁」、「登入/註冊」之間的視圖切換，並實作導航守衛 (Navigation Guards) 保護私人頁面。
 * **HTTP 客戶端**: **Axios 1.13.5**，負責與外部 Dog CEO API 溝通獲取隨機圖片，並與自定義的 Django 後端 API 進行資料同步。
 
 ### 🐍 後端技術 (Backend)
@@ -164,6 +164,7 @@ npm run dev
 ### 1. **會員認證系統 (Authentication)**:
 * **註冊/登入 (Sign Up / Login)**: 使用者需註冊帳號並登入後，才能使用收藏功能。
 * **Token 驗證**: 採用 Token 機制保護 API，確保資料安全性。
+* **個人資料與帳號管理 (Profile Management)**: 提供專屬個人頁面 (`/profile`)，顯示當前登入帳號，並支援永久刪除帳號及其相關收藏紀錄。
 
 <table width="100%">
   <thead>
@@ -261,6 +262,7 @@ dog-project/
 * `POST /api/auth/login/`: **登入**。 取得 Token。
 * `POST /api/auth/logout/`: **登出**。 清除 Session。
 * `GET /api/auth/user/`: **使用者資訊**。 取得當前登入者資料。
+* `DELETE /api/auth/user/delete/`: **刪除帳號**。 永久刪除當前登入使用者的帳號及其所有相關資料，此動作無法復原。
 
 ### **收藏管理 (Dogs)**
 * `GET /api/dogs/`: **取得圖片收藏列表**。 回傳所有已收藏的圖片，並依建立時間降冪排序。
