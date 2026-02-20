@@ -10,7 +10,7 @@
 
 ## 🚀 技術棧 (Tech Stack)
 
-<img src="images/Readme_images/tech_stack.png" height="300" alt="技術棧">
+<img src="images/Readme_images/技術棧.png" width="500" alt="技術棧">
 
 ### ⚡ 前端技術 (Frontend)
 
