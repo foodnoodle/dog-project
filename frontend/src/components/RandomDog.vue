@@ -30,12 +30,28 @@ const fetchNewDog = async () => {
   }
 };
 
+// Toast 狀態設定
+const toast = ref({
+  show: false,
+  message: '',
+  type: 'success'
+});
+let toastTimeout = null;
+
+const showToastMessage = (message, type = 'success') => {
+  toast.value = { show: true, message, type };
+  if (toastTimeout) clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.value.show = false;
+  }, 3000); // 3 秒後自動隱藏
+};
+
 // 2. 收藏圖片到 Django 後端
 const saveDog = async () => {
   if (!dogImage.value) return;
 
   if (!authStore.isAuthenticated) {
-    alert('請先登入才能收藏');
+    showToastMessage('🐶 請先登入才能收藏喔！', 'warning');
     return;
   }
 
@@ -43,10 +59,11 @@ const saveDog = async () => {
     const response = await api.post('/api/dogs/', {
       url: dogImage.value
     });
-    alert('收藏成功！');
+    showToastMessage('💖 收藏成功！已加入您的收藏庫', 'success');
     console.log('後端回應:', response.data);
   } catch (error) {
     console.error('收藏失敗:', error);
+    showToastMessage('❌ 收藏失敗，請稍後再試', 'error');
   }
 };
 
@@ -100,6 +117,28 @@ onMounted(() => {
       </div>
     </div>
   </div>
+
+  <!-- 美化版 Toast 提示框 -->
+  <Teleport to="body">
+    <transition
+      enter-active-class="transition ease-out duration-300 transform"
+      enter-from-class="translate-y-12 opacity-0 scale-95"
+      enter-to-class="translate-y-0 opacity-100 scale-100"
+      leave-active-class="transition ease-in duration-200 transform"
+      leave-from-class="translate-y-0 opacity-100 scale-100"
+      leave-to-class="translate-y-12 opacity-0 scale-95"
+    >
+      <div v-if="toast.show" 
+           class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] px-6 py-3.5 min-w-[280px] text-center rounded-2xl shadow-2xl font-medium text-sm sm:text-base border backdrop-blur-xl flex items-center justify-center gap-2"
+           :class="{
+             'bg-emerald-50/95 dark:bg-emerald-900/80 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700/50 shadow-emerald-500/20': toast.type === 'success',
+             'bg-red-50/95 dark:bg-red-900/80 text-red-700 dark:text-red-300 border-red-200 dark:border-red-700/50 shadow-red-500/20': toast.type === 'error',
+             'bg-amber-50/95 dark:bg-amber-900/80 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700/50 shadow-amber-500/20': toast.type === 'warning'
+           }">
+        <span>{{ toast.message }}</span>
+      </div>
+    </transition>
+  </Teleport>
 </template>
 
 <style scoped>
