@@ -199,8 +199,12 @@ npm run dev
 <img src="images/Readme_GIF/收藏庫_GIF.gif" width="500" alt="收藏這張 GIF">
 
 * 展示使用者 **個人專屬** 的收藏列表，預設依據建立時間進行降冪排列。
-* 具備 **響應式網格佈局 (Responsive Grid)** 設計，能在不同裝置螢幕下自動調整圖片排列順序。
+
 * 提供「刪除」功能，可直接從後端資料庫移除指定的收藏項目。
+
+<img src="images/Readme_GIF/響應式網格佈局_GIF.gif.gif" width="500" alt="響應式網格佈局 GIF">
+
+* 具備 **響應式網格佈局 (Responsive Grid)** 設計，能在不同裝置螢幕下自動調整圖片排列順序。
 
 
 ### 4. **AI 狗狗諮詢 (AI Dog Consultation)**:
@@ -212,7 +216,6 @@ npm run dev
 <img src="images/Readme_GIF/AI對話紀錄_GIF.gif" width="500" alt="AI對話紀錄 GIF">
 
 * **對話紀錄 (Chat History)**: 自動保存使用者的諮詢歷史，方便隨時回顧。
-* **個人資料與設定 (Profile & Settings)**: 允許使用者管理個人資訊與偏好設定。
 
 ---
 ## 📂 專案結構
