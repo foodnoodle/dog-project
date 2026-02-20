@@ -37,8 +37,8 @@ export const useAuthStore = defineStore('auth', {
                 // 存到瀏覽器硬碟中 (讓重新整理後還記得)
                 localStorage.setItem('token', token);
 
-                // (選用) 如果後端有回傳 user 資訊，也可以存起來
-                // this.user = response.data.user;
+                // 登入後取得 user 資訊
+                await this.fetchUser();
 
                 return true; // 告訴呼叫者：登入成功！
             } catch (error) {
@@ -81,6 +81,24 @@ export const useAuthStore = defineStore('auth', {
                 return true;
             } catch (error) {
                 console.error('刪除帳號失敗:', error);
+                throw error;
+            }
+        },
+
+        // === 取得使用者資料 ===
+        async fetchUser() {
+            try {
+                if (!this.token) return null;
+                const response = await api.get('/api/auth/user/');
+                this.user = response.data;
+                localStorage.setItem('user', JSON.stringify(this.user));
+                return this.user;
+            } catch (error) {
+                console.error('取得使用者資料失敗:', error);
+                
+                if (error.response && error.response.status === 401) {
+                    this.logout();
+                }
                 throw error;
             }
         },

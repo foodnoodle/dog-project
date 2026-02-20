@@ -82,7 +82,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useAuthStore } from './stores/auth';
 import { useRouter } from 'vue-router';
 import ChatDrawer from './components/ChatDrawer.vue';
@@ -92,6 +92,12 @@ const isMobileMenuOpen = ref(false);
 
 const authStore = useAuthStore();
 const router = useRouter();
+
+onMounted(() => {
+  if (authStore.isAuthenticated && !authStore.user) {
+    authStore.fetchUser().catch(() => {});
+  }
+});
 
 const handleLogout = () => {
   // 1. 清除狀態與 Token
