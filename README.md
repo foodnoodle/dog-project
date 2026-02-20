@@ -163,7 +163,7 @@ npm run dev
 
 ### 1. **會員認證系統 (Authentication)**:
 * **註冊/登入 (Sign Up / Login)**: 使用者需註冊帳號並登入後，才能使用收藏功能。
-* **JWT 驗證**: 採用 JSON Web Token 機制保護 API，確保資料安全性。
+* **Token 驗證**: 採用 Token 機制保護 API，確保資料安全性。
 
 <table width="100%">
   <thead>
@@ -196,13 +196,13 @@ npm run dev
 
 ### 3. **我的收藏庫 (FavoritesView)**:
    
-<img src="images/Readme_GIF/收藏庫_GIF.gif" width="500" alt="收藏這張 GIF">
+<img src="images/Readme_GIF/收藏庫_GIF.gif" width="500" alt="收藏庫 GIF">
 
 * 展示使用者 **個人專屬** 的收藏列表，預設依據建立時間進行降冪排列。
 
 * 提供「刪除」功能，可直接從後端資料庫移除指定的收藏項目。
 
-<img src="images/Readme_GIF/響應式網格佈局_GIF.gif.gif" width="500" alt="響應式網格佈局 GIF">
+<img src="images/Readme_GIF/響應式網格佈局_GIF.gif" width="500" alt="響應式網格佈局 GIF">
 
 * 具備 **響應式網格佈局 (Responsive Grid)** 設計，能在不同裝置螢幕下自動調整圖片排列順序。
 
@@ -258,7 +258,7 @@ dog-project/
 
 ### **認證管理 (Auth)**
 * `POST /api/auth/registration/`: **註冊**。 建立新使用者帳號。
-* `POST /api/auth/login/`: **登入**。 取得 JWT Token。
+* `POST /api/auth/login/`: **登入**。 取得 Token。
 * `POST /api/auth/logout/`: **登出**。 清除 Session。
 * `GET /api/auth/user/`: **使用者資訊**。 取得當前登入者資料。
 
