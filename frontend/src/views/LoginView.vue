@@ -1,33 +1,44 @@
 <template>
-  <div class="login-container">
-    <div class="card">
-      <h2>🐶 會員登入</h2>
+  <div class="min-h-[80vh] flex justify-center items-center p-4">
+    <div
+      class="bg-white dark:bg-slate-800 p-8 sm:p-10 rounded-3xl shadow-xl w-full max-w-md text-center border border-slate-100 dark:border-slate-700 transition-all">
+      <h2 class="text-2xl font-display font-bold text-slate-800 dark:text-white mb-8">🐶 會員登入</h2>
 
-      <form @submit.prevent="handleLogin" class="login-form">
-        <div class="form-group">
-          <label for="username">帳號 (Username)</label>
-          <input id="username" v-model="username" type="text" required placeholder="請輸入您的帳號" :disabled="isLoading">
+      <form @submit.prevent="handleLogin" class="space-y-6">
+        <div class="text-left">
+          <label for="username" class="block mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">帳號
+            (Username)</label>
+          <input id="username" v-model="username" type="text" required placeholder="請輸入您的帳號" :disabled="isLoading"
+            class="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-800 dark:text-white bg-slate-50 dark:bg-slate-700/50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed placeholder-slate-400">
         </div>
 
-        <div class="form-group">
-          <label for="password">密碼 (Password)</label>
-          <input id="password" v-model="password" type="password" required placeholder="請輸入您的密碼" :disabled="isLoading">
+        <div class="text-left">
+          <label for="password" class="block mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">密碼
+            (Password)</label>
+          <input id="password" v-model="password" type="password" required placeholder="請輸入您的密碼" :disabled="isLoading"
+            class="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-800 dark:text-white bg-slate-50 dark:bg-slate-700/50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed placeholder-slate-400">
         </div>
 
-        <div v-if="errorMessage" class="error-message">
+        <div v-if="errorMessage"
+          class="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-900/30 dark:text-red-400 rounded-lg text-left">
           ⚠️ {{ errorMessage }}
         </div>
 
-        <button type="submit" :disabled="isLoading" class="submit-btn">
+        <button type="submit" :disabled="isLoading"
+          class="w-full py-3.5 px-4 bg-primary-600 text-white font-bold rounded-xl shadow-lg shadow-primary-500/30 hover:bg-primary-700 hover:-translate-y-0.5 transition-all disabled:opacity-70 disabled:cursor-wait disabled:hover:translate-y-0 disabled:shadow-none">
           <span v-if="isLoading">登入中...</span>
           <span v-else>立即登入</span>
         </button>
       </form>
 
-      <div class="tips">
-        <p class="tip_message">還沒有帳號？ <router-link to="/register">立即註冊</router-link></p>
-        <p class="test-account">測試帳號：TestUser2024</p>
-        <p class="test-account">密碼：MyDogProject01</p>
+      <div
+        class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700 text-sm text-slate-500 dark:text-slate-400 space-y-2">
+        <p>還沒有帳號？ <router-link to="/register"
+            class="text-primary-600 dark:text-primary-400 font-bold hover:underline">立即註冊</router-link></p>
+        <div class="mt-4 p-3 bg-slate-50 dark:bg-slate-700/30 rounded-lg text-xs">
+          <p>測試帳號：TestUser2024</p>
+          <p>密碼：MyDogProject01</p>
+        </div>
       </div>
     </div>
   </div>
@@ -77,126 +88,5 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  /* 讓它盡量置中 */
-}
-
-.card {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-  @apply dark:bg-gray-800 dark:text-white;
-}
-
-h2 {
-  margin-bottom: 1.5rem;
-  color: #2c3e50;
-  @apply dark:text-white;
-}
-
-.form-group {
-  margin-bottom: 1.2rem;
-  text-align: left;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #34495e;
-  @apply dark:text-gray-300;
-}
-
-input {
-  width: 100%;
-  padding: 0.8rem;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
-  /* 確保 padding 不會撐爆寬度 */
-  @apply dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400;
-}
-
-input:focus {
-  border-color: #42b883;
-  outline: none;
-  @apply dark:border-green-500;
-}
-
-input:disabled {
-  background-color: #f8f9fa;
-  cursor: not-allowed;
-  @apply dark:bg-gray-600 dark:text-gray-400;
-}
-
-.submit-btn {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #42b883;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 1rem;
-}
-
-.submit-btn:hover:not(:disabled) {
-  background-color: #3aa876;
-}
-
-.submit-btn:disabled {
-  background-color: #a8d5c2;
-  cursor: wait;
-}
-
-.error-message {
-  color: #e74c3c;
-  background-color: #fde8e7;
-  padding: 0.8rem;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-
-.tips {
-  margin-top: 2rem;
-  font-size: 0.85rem;
-  color: #7f8c8d;
-  border-top: 1px solid #eee;
-  padding-top: 1rem;
-  @apply dark:border-gray-700 dark:text-gray-400;
-}
-
-a {
-  color: #42b883;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-.test-account {
-  font-size: 0.8rem;
-  color: #bdc3c7;
-  @apply dark:text-gray-500;
-}
-
-.tip_message {
-  margin-bottom: 0.5rem;
-}
+/* All scoped CSS replaced with Tailwind utility classes in the template */
 </style>

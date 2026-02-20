@@ -7,10 +7,10 @@
 
     <transition name="slide">
         <div v-if="chatStore.isOpen"
-            class="fixed inset-y-0 right-0 w-full md:w-[420px] bg-white dark:bg-gray-900 shadow-2xl z-50 flex flex-col transition-colors duration-300">
+            class="fixed inset-y-0 right-0 w-full md:w-[420px] bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-2xl z-50 flex flex-col transition-colors duration-300 border-l border-slate-200/50 dark:border-slate-800/50">
 
             <header
-                class="p-4 border-b dark:border-gray-700 flex items-center justify-between bg-white dark:bg-gray-800 transition-colors duration-300">
+                class="p-4 border-b border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between bg-white/50 dark:bg-slate-900/50 transition-colors duration-300">
                 <div class="flex items-center gap-3">
                     <img :src="chatStore.currentImageUrl" alt="Dog Thumbnail"
                         class="w-12 h-12 rounded-lg object-cover shadow-sm border dark:border-gray-600" />
@@ -39,7 +39,7 @@
             </header>
 
             <main
-                class="flex-1 overflow-y-auto p-4 space-y-5 bg-gray-50 dark:bg-gray-900 scroll-smooth transition-colors duration-300"
+                class="flex-1 overflow-y-auto p-4 space-y-5 bg-transparent scroll-smooth transition-colors duration-300"
                 ref="chatContainer">
                 <div v-if="chatStore.messages.length === 0 && !chatStore.isLoading"
                     class="text-center text-gray-400 mt-10 text-sm">
@@ -48,11 +48,12 @@
 
                 <div v-for="(msg, index) in chatStore.messages" :key="index" class="flex flex-col"
                     :class="msg.role === 'user' ? 'items-end' : 'items-start'">
-                    <span class="text-xs text-gray-400 mb-1 px-1">{{ msg.role === 'user' ? '您' : 'AI 助理' }}</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400 mb-1 px-1">{{ msg.role === 'user' ? '您' :
+                        'AI 助理' }}</span>
                     <div class="max-w-[85%] rounded-2xl px-4 py-2.5 shadow-sm transition-colors duration-300"
                         :class="msg.role === 'user'
-                            ? 'bg-blue-600 text-white rounded-tr-none'
-                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-100 dark:border-gray-700 rounded-tl-none'">
+                            ? 'bg-primary-600 shadow-primary-500/20 text-white rounded-tr-sm'
+                            : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-100 dark:border-slate-700/50 rounded-tl-sm'">
                         <p class="whitespace-pre-wrap text-sm leading-relaxed">{{ msg.content }}</p>
                     </div>
                 </div>
@@ -70,16 +71,17 @@
                 </div>
             </main>
 
-            <footer class="p-4 border-t dark:border-gray-700 bg-white dark:bg-gray-800 transition-colors duration-300">
+            <footer
+                class="p-4 border-t border-slate-200/50 dark:border-slate-800/50 bg-white/50 dark:bg-slate-900/50 transition-colors duration-300">
                 <div v-if="chatStore.error" class="text-red-500 text-xs mb-2 text-center">
                     {{ chatStore.error }}
                 </div>
                 <form @submit.prevent="handleSend" class="flex gap-2 relative">
                     <input v-model="prompt" type="text" placeholder="輸入您的問題..."
-                        class="flex-1 border border-gray-300 dark:border-gray-600 rounded-full pl-5 pr-12 py-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm transition-shadow shadow-sm bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                        class="flex-1 border border-slate-200 dark:border-slate-700 rounded-full pl-5 pr-12 py-3 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 text-sm transition-shadow shadow-sm bg-white/80 dark:bg-slate-800/80 dark:text-white dark:placeholder-slate-400 backdrop-blur-sm"
                         :disabled="chatStore.isLoading" />
                     <button type="submit"
-                        class="absolute right-1.5 top-1.5 bottom-1.5 aspect-square bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors disabled:bg-gray-300 shadow-sm"
+                        class="absolute right-1.5 top-1.5 bottom-1.5 aspect-square bg-primary-600 text-white rounded-full flex items-center justify-center hover:bg-primary-700 transition-colors disabled:bg-slate-300 dark:disabled:bg-slate-600 shadow-sm shadow-primary-500/30 disabled:shadow-none"
                         :disabled="!prompt.trim() || chatStore.isLoading">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2.5">

@@ -45,32 +45,49 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="history-container">
-        <div class="header">
-            <h2>📜 歷史對話紀錄</h2>
-            <div class="header-actions">
-                <button @click="fetchSessions" class="btn-refresh">🔄 刷新</button>
-                <button @click="deleteAll" class="btn-delete-all" v-if="sessions.length > 0">🗑️ 刪除全部</button>
+    <div
+        class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 md:p-8 w-full mt-4">
+        <div
+            class="flex flex-col sm:flex-row justify-between items-center mb-8 pb-4 border-b border-slate-100 dark:border-slate-700 gap-4">
+            <h2 class="text-2xl font-display font-bold text-slate-800 dark:text-white">📜 歷史對話紀錄</h2>
+            <div class="flex gap-2">
+                <button @click="fetchSessions" class="btn-primary">🔄 刷新</button>
+                <button @click="deleteAll" v-if="sessions.length > 0" class="btn-danger">🗑️ 刪除全部</button>
             </div>
         </div>
 
-        <div v-if="loading" class="loading">載入中...</div>
-
-        <div v-else-if="sessions.length === 0" class="empty-state">
-            目前沒有任何對話紀錄。
+        <div v-if="loading" class="flex justify-center p-12">
+            <span class="text-slate-500 animate-pulse">載入中...</span>
         </div>
 
-        <div v-else class="grid">
-            <div v-for="session in sessions" :key="session.id" class="grid-item">
-                <div class="image-wrapper" @click="openChat(session.image_url)">
-                    <img :src="session.image_url" alt="Chat History" loading="lazy" />
-                    <div class="overlay">
-                        <span>💬 繼續對話</span>
+        <div v-else-if="sessions.length === 0"
+            class="flex flex-col items-center justify-center py-16 text-slate-500 dark:text-slate-400">
+            <span class="text-4xl mb-3">📭</span>
+            <p class="text-lg">目前沒有任何對話紀錄。</p>
+        </div>
+
+        <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+            <div v-for="session in sessions" :key="session.id"
+                class="group relative bg-slate-100 dark:bg-slate-700 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col"
+                @click="openChat(session.image_url)">
+                <div class="relative w-full aspect-square overflow-hidden">
+                    <img :src="session.image_url" alt="Chat History"
+                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy" />
+                    <!-- Hover Overlay -->
+                    <div
+                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center items-center">
+                        <span
+                            class="px-4 py-2 bg-white/20 backdrop-blur-md rounded-xl text-white font-medium text-sm">💬
+                            繼續對話</span>
                     </div>
                 </div>
-                <!-- 格式化時間：雖然 Serializer 有給，但簡單切字串只取日期部分即可 -->
-                <div class="meta">
-                    <small>{{ new Date(session.created_at).toLocaleString() }}</small>
+
+                <div
+                    class="p-3 text-center bg-slate-50 dark:bg-slate-800 border-t border-slate-100 dark:border-slate-700">
+                    <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                        {{ new Date(session.created_at).toLocaleString() }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -78,121 +95,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.history-container {
-    margin-top: 40px;
-    padding: 20px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    @apply dark:bg-gray-800 dark:text-white;
+.btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 mt-4 sm:mt-0 text-sm font-medium text-sky-700 bg-sky-50 dark:bg-sky-900/30 dark:text-sky-400 rounded-xl hover:bg-sky-100 dark:hover:bg-sky-900/50 transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 outline-none;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 10px;
-    @apply dark:border-gray-700;
-}
-
-.header-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-refresh,
-.btn-delete-all {
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    color: white;
-}
-
-.btn-refresh {
-    background-color: #2196F3;
-}
-
-.btn-refresh:hover {
-    background-color: #1976D2;
-}
-
-.btn-delete-all {
-    background-color: #ff5252;
-}
-
-.btn-delete-all:hover {
-    background-color: #d32f2f;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-}
-
-.grid-item {
-    border: 1px solid #eee;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.2s;
-    @apply dark:border-gray-700 dark:bg-gray-800;
-}
-
-.grid-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.image-wrapper {
-    position: relative;
-    cursor: pointer;
-    height: 150px;
-}
-
-.image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* 懸浮時顯示遮罩 */
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: bold;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.image-wrapper:hover .overlay {
-    opacity: 1;
-}
-
-.meta {
-    padding: 8px;
-    text-align: center;
-    background: #f9f9f9;
-    border-top: 1px solid #eee;
-    @apply dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300;
-}
-
-.empty-state,
-.loading {
-    text-align: center;
-    padding: 40px;
-    color: #888;
+.btn-danger {
+    @apply inline-flex items-center justify-center px-4 py-2 mt-4 sm:mt-0 text-sm font-medium text-red-700 bg-red-50 dark:bg-red-900/30 dark:text-red-400 rounded-xl hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-red-500 outline-none;
 }
 </style>

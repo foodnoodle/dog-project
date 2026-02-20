@@ -1,35 +1,46 @@
 <template>
-    <div class="register-container">
-        <div class="card">
-            <h2>📝 新會員註冊</h2>
+    <div class="min-h-[80vh] flex justify-center items-center p-4">
+        <div
+            class="bg-white dark:bg-slate-800 p-8 sm:p-10 rounded-3xl shadow-xl w-full max-w-md text-center border border-slate-100 dark:border-slate-700 transition-all">
+            <h2 class="text-2xl font-display font-bold text-slate-800 dark:text-white mb-8">📝 新會員註冊</h2>
 
-            <form @submit.prevent="handleRegister" class="register-form">
-                <div class="form-group">
-                    <label>帳號 (Username)</label>
-                    <input v-model="username" type="text" required placeholder="請設定您的帳號">
+            <form @submit.prevent="handleRegister" class="space-y-6">
+                <div class="text-left">
+                    <label class="block mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">帳號
+                        (Username)</label>
+                    <input v-model="username" type="text" required placeholder="請設定您的帳號"
+                        class="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-800 dark:text-white bg-slate-50 dark:bg-slate-700/50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all placeholder-slate-400">
                 </div>
 
-                <div class="form-group">
-                    <label>密碼 (Password)</label>
-                    <input v-model="password" type="password" required placeholder="請設定密碼">
+                <div class="text-left">
+                    <label class="block mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">密碼
+                        (Password)</label>
+                    <input v-model="password" type="password" required placeholder="請設定密碼"
+                        class="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-800 dark:text-white bg-slate-50 dark:bg-slate-700/50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all placeholder-slate-400">
                 </div>
 
-                <div class="form-group">
-                    <label>確認密碼 (Confirm Password)</label>
-                    <input v-model="passwordConfirm" type="password" required placeholder="請再次輸入密碼">
+                <div class="text-left">
+                    <label class="block mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">確認密碼 (Confirm
+                        Password)</label>
+                    <input v-model="passwordConfirm" type="password" required placeholder="請再次輸入密碼"
+                        class="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-800 dark:text-white bg-slate-50 dark:bg-slate-700/50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all placeholder-slate-400">
                 </div>
 
-                <div v-if="errorMessage" class="error-message">
+                <div v-if="errorMessage"
+                    class="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-900/30 dark:text-red-400 rounded-lg text-left">
                     ⚠️ {{ errorMessage }}
                 </div>
 
-                <button type="submit" :disabled="isLoading" class="submit-btn">
+                <button type="submit" :disabled="isLoading"
+                    class="w-full py-3.5 px-4 bg-sky-600 text-white font-bold rounded-xl shadow-lg shadow-sky-500/30 hover:bg-sky-700 hover:-translate-y-0.5 transition-all disabled:opacity-70 disabled:cursor-wait disabled:hover:translate-y-0 disabled:shadow-none">
                     {{ isLoading ? '註冊中...' : '立即註冊' }}
                 </button>
             </form>
 
-            <div class="tips">
-                <p>已經有帳號了嗎？ <router-link to="/login">按此登入</router-link></p>
+            <div
+                class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700 text-sm text-slate-500 dark:text-slate-400 space-y-2">
+                <p>已經有帳號了嗎？ <router-link to="/login"
+                        class="text-sky-600 dark:text-sky-400 font-bold hover:underline">按此登入</router-link></p>
             </div>
         </div>
     </div>
@@ -98,103 +109,5 @@ const handleRegister = async () => {
 </script>
 
 <style scoped>
-/* 樣式直接沿用 LoginView 的 CSS，保持一致性 */
-.register-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-}
-
-.card {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    @apply dark:bg-gray-800 dark:text-white;
-}
-
-h2 {
-    margin-bottom: 1.5rem;
-    color: #2c3e50;
-    @apply dark:text-white;
-}
-
-.form-group {
-    margin-bottom: 1.2rem;
-    text-align: left;
-}
-
-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #34495e;
-    @apply dark:text-gray-300;
-}
-
-input {
-    width: 100%;
-    padding: 0.8rem;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    @apply dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400;
-}
-
-input:focus {
-    border-color: #42b883;
-    outline: none;
-    @apply dark:border-blue-500;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 0.8rem;
-    background-color: #3498db;
-    /* 註冊按鈕用藍色區隔 */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 1rem;
-}
-
-.submit-btn:hover {
-    background-color: #2980b9;
-}
-
-.submit-btn:disabled {
-    background-color: #a9cce3;
-    cursor: wait;
-}
-
-.error-message {
-    color: #e74c3c;
-    background-color: #fde8e7;
-    padding: 0.8rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-}
-
-.tips {
-    margin-top: 2rem;
-    font-size: 0.85rem;
-    color: #7f8c8d;
-    border-top: 1px solid #eee;
-    padding-top: 1rem;
-    @apply dark:border-gray-700 dark:text-gray-400;
-}
-
-a {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: bold;
-}
+/* All scoped CSS replaced with Tailwind utility classes in the template */
 </style>

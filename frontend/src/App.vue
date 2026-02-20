@@ -1,25 +1,37 @@
 <template>
-  <div class="app-container">
-    <nav class="navbar">
-      <div class="nav-brand">🐶 狗狗圖鑑</div>
-      <div class="nav-links">
-        <router-link to="/" class="nav-item">首頁 (抽卡)</router-link>
+  <div class="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300 flex flex-col">
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/70 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 transition-all">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Brand -->
+          <div class="flex-shrink-0 flex items-center gap-2">
+            <span class="text-2xl">🐶</span>
+            <span class="font-display font-bold text-xl tracking-tight text-slate-800 dark:text-white">狗狗圖鑑</span>
+          </div>
 
-        <template v-if="authStore.isAuthenticated">
-          <router-link to="/profile" class="nav-item">個人資料</router-link>
-          <router-link to="/favorites" class="nav-item">我的收藏</router-link>
-          <router-link to="/history" class="nav-item">對話紀錄</router-link>
-          <button @click="handleLogout" class="nav-item logout-btn">登出</button>
-        </template>
+          <!-- Navigation Links -->
+          <div class="flex items-center gap-2 md:gap-4">
+            <router-link to="/" class="nav-link">首頁 (抽卡)</router-link>
 
-        <template v-else>
-          <router-link to="/login" class="nav-item login-btn">登入</router-link>
-          <router-link to="/register" class="nav-item register-btn">註冊</router-link>
-        </template>
+            <template v-if="authStore.isAuthenticated">
+              <router-link to="/profile" class="nav-link">個人資料</router-link>
+              <router-link to="/favorites" class="nav-link">我的收藏</router-link>
+              <router-link to="/history" class="nav-link">對話紀錄</router-link>
+              <button @click="handleLogout" class="btn-danger ml-2">登出</button>
+            </template>
+
+            <template v-else>
+              <router-link to="/login" class="nav-link">登入</router-link>
+              <router-link to="/register" class="btn-primary ml-2">註冊</router-link>
+            </template>
+          </div>
+        </div>
       </div>
     </nav>
 
-    <main class="main-content">
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
       <router-view></router-view>
     </main>
 
@@ -52,69 +64,19 @@ const handleLogout = () => {
 </script>
 
 <style scoped>
-.app-container {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  color: #2c3e50;
-  min-height: 100vh;
-  @apply dark:text-white;
+.nav-link {
+  @apply text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors rounded-md px-3 py-2;
 }
 
-.navbar {
-  background-color: #42b883;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.nav-link.router-link-active {
+  @apply text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-slate-800/50;
 }
 
-.nav-brand {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
+.btn-primary {
+  @apply inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white bg-primary-600 rounded-full hover:bg-primary-700 hover:shadow-lg hover:-translate-y-0.5 shadow-primary-500/30 transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-600 dark:focus:ring-offset-slate-900;
 }
 
-.nav-links {
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-}
-
-.nav-item {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  transition: opacity 0.3s;
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-size: 1rem;
-  padding: 0;
-}
-
-.nav-item:hover {
-  opacity: 0.8;
-}
-
-/* 特別樣式：登入/註冊/登出按鈕 */
-.login-btn,
-.register-btn,
-.logout-btn {
-  background-color: white;
-  color: #42b883;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-weight: bold;
-}
-
-.logout-btn {
-  background-color: #e74c3c;
-  /* 紅色 */
-  color: white;
-}
-
-.main-content {
-  padding: 2rem;
+.btn-danger {
+  @apply inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white bg-red-500 rounded-full hover:bg-red-600 hover:shadow-lg hover:-translate-y-0.5 shadow-red-500/30 transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-slate-900;
 }
 </style>
