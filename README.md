@@ -34,6 +34,15 @@
 * **資料庫**: 使用 **SQLite3**，用於儲存圖片網址 (URL) 與建立時間戳記。
 
 ---
+## 🔐 環境變數設定 (Environment Variables Setup)
+
+在啟動專案之前，請務必設定環境變數。本專案在前端與後端目錄下皆提供了 `.env.example` 範本檔。
+
+請將這些範本檔案複製並重新命名為 `.env`，並根據您的需求（例如 AI API 金鑰等）填入正確的設定值：
+* **前端**：複製 `frontend/.env.example` 並重新命名為 `frontend/.env`
+* **後端**：複製 `backend/.env.example` 並重新命名為 `backend/.env`
+
+---
 ## 🐳 Docker 一鍵啟動 (Docker Quick Start)
 
 本專案支援完全自動化的容器化部署。透過 Docker Compose，您可以跳過繁瑣的 Python 與 Node.js 環境設定，實現「一鍵啟動」完整的開發環境。
