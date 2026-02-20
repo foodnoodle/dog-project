@@ -12,9 +12,6 @@ from .serializers import ChatSessionSerializer, ChatInputSerializer, ChatSession
 from google import genai
 from google.genai import types, errors
 
-# 初始化新版客戶端
-client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
-
 class ChatView(APIView):
     """
     狗狗 AI 對話介面
@@ -83,7 +80,8 @@ class ChatView(APIView):
                 mime_type='image/jpeg'
             )
 
-            # 4. 建立對話，並指定最新版的模型 gemini-1.5-flash (較穩定)
+            # 4. 初始化新版客戶端與建立對話，並指定最新版的模型
+            client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
             chat = client.chats.create(
                 model='gemini-2.5-flash',
                 history=gemini_history
