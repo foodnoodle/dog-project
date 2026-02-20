@@ -190,14 +190,14 @@ npm run dev
 
 * 從外部 Dog CEO API 獲取即時的隨機狗狗圖片。
 
-<img src="images/Readme_images/favorite.png" width="500" alt="收藏這張 GIF">
-  
+<img src="images/Readme_GIF/收藏這張_GIF.gif" width="500" alt="收藏這張 GIF">
+
 * 提供「收藏這張」功能，透過 `POST` 請求將圖片網址傳送至後端儲存 **(需登入)**。
 
 ### 3. **我的收藏庫 (FavoritesView)**:
    
-<img src="https://github.com/user-attachments/assets/fa4a40cd-e1aa-48e0-9cbc-7f61125261c3" width="500" alt="我的收藏 GIF">
- 
+<img src="images/Readme_GIF/收藏庫_GIF.gif" width="500" alt="收藏這張 GIF">
+
 * 展示使用者 **個人專屬** 的收藏列表，預設依據建立時間進行降冪排列。
 * 具備 **響應式網格佈局 (Responsive Grid)** 設計，能在不同裝置螢幕下自動調整圖片排列順序。
 * 提供「刪除」功能，可直接從後端資料庫移除指定的收藏項目。
@@ -205,10 +205,12 @@ npm run dev
 
 ### 4. **AI 狗狗諮詢 (AI Dog Consultation)**:
 
-<!-- TODO: 替換為您的 AI 狗狗諮詢 GIF -->
-<img src="images/Readme_images/chat_ui.png" width="500" alt="AI 狗狗諮詢互動示範 GIF">
+<img src="images/Readme_GIF/AI狗狗諮詢_GIF.gif" width="500" alt="AI狗狗諮詢 GIF">
 
 * 整合 Google Gemini AI 模型，提供智慧化的狗狗飼養諮詢服務。
+
+<img src="images/Readme_GIF/AI對話紀錄_GIF.gif" width="500" alt="AI對話紀錄 GIF">
+
 * **對話紀錄 (Chat History)**: 自動保存使用者的諮詢歷史，方便隨時回顧。
 * **個人資料與設定 (Profile & Settings)**: 允許使用者管理個人資訊與偏好設定。
 
