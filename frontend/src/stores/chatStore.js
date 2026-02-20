@@ -40,7 +40,10 @@ export const useChatStore = defineStore('chat', {
             try {
                 const response = await chatApi.getHistory(imageUrl);
                 // 後端序列化器回傳的資料中包含 messages 陣列
-                this.messages = response.data.messages || [];
+                this.messages = (response.data.messages || []).map(msg => ({
+                    ...msg,
+                    isNew: false // History messages are not new
+                }));
             } catch (err) {
                 if (err.response && err.response.data && err.response.data.error) {
                     this.error = err.response.data.error;
@@ -61,7 +64,7 @@ export const useChatStore = defineStore('chat', {
             if (!prompt.trim() || !this.currentImageUrl) return;
 
             // 1. 樂觀 UI 更新 (Optimistic UI)：先將使用者的問題顯示在畫面上
-            this.messages.push({ role: 'user', content: prompt });
+            this.messages.push({ role: 'user', content: prompt, isNew: false });
             this.isLoading = true;
             this.error = null;
 
@@ -69,8 +72,8 @@ export const useChatStore = defineStore('chat', {
                 // 2. 發送 API 請求
                 const response = await chatApi.askQuestion(this.currentImageUrl, prompt);
 
-                // 3. 將 AI 的回覆加入對話陣列中
-                this.messages.push({ role: 'model', content: response.data.response });
+                // 3. 將 AI 的回覆加入對話陣列中，標記為新訊息以觸發打字機效果
+                this.messages.push({ role: 'model', content: response.data.response, isNew: true });
             } catch (err) {
                 if (err.response && err.response.data && err.response.data.error) {
                     this.error = err.response.data.error;

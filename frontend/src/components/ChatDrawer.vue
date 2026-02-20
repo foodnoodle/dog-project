@@ -54,7 +54,13 @@
                         :class="msg.role === 'user'
                             ? 'bg-primary-600 shadow-primary-500/20 text-white rounded-tr-sm'
                             : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-100 dark:border-slate-700/50 rounded-tl-sm'">
-                        <p class="whitespace-pre-wrap text-sm leading-relaxed">{{ msg.content }}</p>
+                        <p class="whitespace-pre-wrap text-sm leading-relaxed" v-if="msg.role === 'user' || !msg.isNew">
+                            {{ msg.content }}
+                        </p>
+                        <p class="whitespace-pre-wrap text-sm leading-relaxed" v-else>
+                            <TypewriterText :text="msg.content" @update="scrollToBottom"
+                                @complete="handleTypewriterComplete(msg)" />
+                        </p>
                     </div>
                 </div>
 
@@ -98,6 +104,7 @@
 <script setup>
 import { ref, watch, nextTick } from 'vue';
 import { useChatStore } from '../stores/chatStore'; // 請確保路徑正確
+import TypewriterText from './TypewriterText.vue';
 
 const chatStore = useChatStore();
 const prompt = ref('');
@@ -115,14 +122,26 @@ const handleSend = async () => {
 
 /**
  * 核心講究細節：自動捲動到底部
- * 當 messages 陣列長度改變時，自動將對話框捲動到最新的一筆訊息
+ * 獨立出一個 function 以供 TypewriterText 元件在更新時呼叫
  */
-watch(() => chatStore.messages.length, async () => {
+const scrollToBottom = async () => {
     await nextTick(); // 等待 Vue 完成 DOM 渲染
     if (chatContainer.value) {
         chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
     }
-});
+};
+
+/**
+ * 打字機特效完成時，移除新訊息標記
+ */
+const handleTypewriterComplete = (msg) => {
+    msg.isNew = false;
+};
+
+/**
+ * 當 messages 陣列長度改變時，自動將對話框捲動到最新的一筆訊息
+ */
+watch(() => chatStore.messages.length, scrollToBottom);
 </script>
 
 <style scoped>
