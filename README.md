@@ -194,6 +194,9 @@ npm run dev
 
 
 ### 4. **AI 狗狗諮詢 (AI Dog Consultation)**:
+
+<img src="images/Readme_images/chat_ui.png" width="500" alt="AI 狗狗諮詢">
+
 * 整合 Google Gemini AI 模型，提供智慧化的狗狗飼養諮詢服務。
 * **對話紀錄 (Chat History)**: 自動保存使用者的諮詢歷史，方便隨時回顧。
 * **個人資料與設定 (Profile & Settings)**: 允許使用者管理個人資訊與偏好設定。
