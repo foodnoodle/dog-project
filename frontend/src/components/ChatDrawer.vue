@@ -54,13 +54,16 @@
                         :class="msg.role === 'user'
                             ? 'bg-primary-600 shadow-primary-500/20 text-white rounded-tr-sm'
                             : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-100 dark:border-slate-700/50 rounded-tl-sm'">
-                        <p class="whitespace-pre-wrap text-sm leading-relaxed" v-if="msg.role === 'user' || !msg.isNew">
+                        <p class="whitespace-pre-wrap text-sm leading-relaxed" v-if="msg.role === 'user'">
                             {{ msg.content }}
                         </p>
-                        <p class="whitespace-pre-wrap text-sm leading-relaxed" v-else>
+                        <div class="text-sm leading-relaxed markdown-content" v-else-if="!msg.isNew"
+                            v-html="parseMarkdown(msg.content)">
+                        </div>
+                        <div class="text-sm leading-relaxed markdown-content" v-else>
                             <TypewriterText :text="msg.content" @update="scrollToBottom"
                                 @complete="handleTypewriterComplete(msg)" />
-                        </p>
+                        </div>
                     </div>
                 </div>
 
@@ -105,10 +108,16 @@
 import { ref, watch, nextTick } from 'vue';
 import { useChatStore } from '../stores/chatStore'; // 請確保路徑正確
 import TypewriterText from './TypewriterText.vue';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
 const chatStore = useChatStore();
 const prompt = ref('');
 const chatContainer = ref(null);
+
+const parseMarkdown = (rawText) => {
+    return DOMPurify.sanitize(marked.parse(rawText));
+};
 
 /**
  * 處理訊息發送
@@ -145,6 +154,28 @@ watch(() => chatStore.messages.length, scrollToBottom);
 </script>
 
 <style scoped>
+:deep(.markdown-content p) {
+    margin-bottom: 0.5rem;
+}
+
+:deep(.markdown-content p:last-child) {
+    margin-bottom: 0;
+}
+
+:deep(.markdown-content strong) {
+    font-weight: 700;
+}
+
+:deep(.markdown-content ul) {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+:deep(.markdown-content li) {
+    margin-bottom: 0.25rem;
+}
+
 /* 定義 Vue 的平滑轉場動畫 */
 .fade-enter-active,
 .fade-leave-active {

@@ -1,9 +1,11 @@
 <template>
-    <span class="whitespace-pre-wrap">{{ displayedText }}<span v-if="isTyping" class="animate-pulse">|</span></span>
+    <div class="markdown-container" v-html="parsedHTML"></div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
 const props = defineProps({
     text: {
@@ -22,6 +24,20 @@ const displayedText = ref('');
 const isTyping = ref(true);
 let currentIndex = 0;
 let timeoutId = null;
+
+const parsedHTML = computed(() => {
+    let html = DOMPurify.sanitize(marked.parse(displayedText.value));
+
+    // In order to show the cursor inline with the last paragraph, we inject it into the HTML natively.
+    if (isTyping.value) {
+        if (html.endsWith('</p>\n')) {
+            html = html.slice(0, -5) + '<span class="typing-cursor">|</span></p>\n';
+        } else {
+            html += '<span class="typing-cursor">|</span>';
+        }
+    }
+    return html;
+});
 
 const typeText = () => {
     if (currentIndex < props.text.length) {
@@ -67,9 +83,32 @@ watch(() => props.text, (newText) => {
 </script>
 
 <style scoped>
-/* Optional: slightly soften the cursor pulse if needed */
-.animate-pulse {
+:deep(p) {
+    margin-bottom: 0.5rem;
+}
+
+:deep(p:last-child) {
+    margin-bottom: 0;
+}
+
+:deep(strong) {
+    font-weight: 700;
+}
+
+:deep(ul) {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+:deep(li) {
+    margin-bottom: 0.25rem;
+}
+
+:deep(.typing-cursor) {
+    display: inline-block;
     animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    margin-left: 2px;
 }
 
 @keyframes pulse {
