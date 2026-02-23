@@ -20,15 +20,16 @@
 
 ## 📑 目錄 (Table of Contents)
 
-- [🚀 技術棧 (Tech Stack)](#技術棧-tech-stack)
-- [🔐 環境變數設定 (Environment Variables Setup)](#環境變數設定-environment-variables-setup)
-- [🐳 Docker 一鍵啟動 (Docker Quick Start)](#docker-一鍵啟動-docker-quick-start)
-- [🖥️ 本地開發環境建置 (Local Development Setup)](#本地開發環境建置-local-development-setup)
-- [🛠️ 開發工具與視覺化](#開發工具與視覺化)
-- [🌟 核心功能](#核心功能)
-- [📂 專案結構](#專案結構)
-- [🔗 API 端點 (Django)](#api-端點-django)
+- [🚀 技術棧 (Tech Stack)](#tech-stack)
+- [🔐 環境變數設定 (Environment Variables Setup)](#env-setup)
+- [🐳 Docker 一鍵啟動 (Docker Quick Start)](#docker-quick-start)
+- [🖥️ 本地開發環境建置 (Local Development Setup)](#local-dev-setup)
+- [🛠️ 開發工具與視覺化](#dev-tools)
+- [🌟 核心功能](#core-features)
+- [📂 專案結構](#project-structure)
+- [🔗 API 端點 (Django)](#api-endpoints)
 
+<a id="tech-stack"></a>
 ## 🚀 技術棧 (Tech Stack)
 
 <img src="images/Readme_images/技術棧.png" width="500" alt="技術棧">
@@ -55,6 +56,7 @@
 * **資料庫**: 使用 **SQLite3**，用於儲存圖片網址 (URL) ﹑建立時間戳記與對話紀錄等資訊。
 
 ---
+<a id="env-setup"></a>
 ## 🔐 環境變數設定 (Environment Variables Setup)
 
 在啟動專案之前，請務必設定環境變數。本專案在前端與後端目錄下皆提供了 `.env.example` 範本檔。
@@ -64,6 +66,7 @@
 * **後端**：複製 `backend/.env.example` 並重新命名為 `backend/.env`
 
 ---
+<a id="docker-quick-start"></a>
 ## 🐳 Docker 一鍵啟動 (Docker Quick Start)
 
 本專案支援完全自動化的容器化部署。透過 Docker Compose，您可以跳過繁瑣的 Python 與 Node.js 環境設定，實現「一鍵啟動」完整的開發環境。
@@ -103,11 +106,13 @@ docker-compose up --build
 
 ---
 
+<a id="local-dev-setup"></a>
 ## 🖥️ 本地開發環境建置 (Local Development Setup)
 
 若您偏好在宿主機直接進行開發而非使用 Docker 容器，請參考 [本地開發環境建置指南](LOCAL_DEVELOPMENT.md) 進行配置。
 
 ---
+<a id="dev-tools"></a>
 ## 🛠️ 開發工具與視覺化
 
 <table width="100%">
@@ -134,6 +139,7 @@ docker-compose up --build
 </table>
 
 ---
+<a id="core-features"></a>
 ## 🌟 核心功能
 
 ### 1. **會員認證系統 (Authentication)**:
@@ -194,6 +200,7 @@ docker-compose up --build
 * **對話紀錄 (Chat History)**: 自動保存使用者的諮詢歷史，方便隨時回顧。
 
 ---
+<a id="project-structure"></a>
 ## 📂 專案結構
 
 <details>
@@ -234,6 +241,7 @@ dog-project/
 </details>
 
 ---
+<a id="api-endpoints"></a>
 ## 🔗 API 端點 (Django) 
 
 <details>
