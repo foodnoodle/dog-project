@@ -1,3 +1,5 @@
+<a id="top"></a>
+
 # 狗狗收藏館 (Dog Image Collection) 🐕
 
 <center>
@@ -7,6 +9,25 @@
 **這是一個採用前後端分離架構開發的全棧應用程式，使用者可以瀏覽隨機生成的狗狗圖片，並將心儀的圖片收藏至個人資料庫中。**
 
 </center>
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Vue.js-3.5.24-4FC08D?style=flat&logo=vuedotjs&logoColor=white" alt="Vue">
+  <img src="https://img.shields.io/badge/Django-6.0.2-092E20?style=flat&logo=django&logoColor=white" alt="Django">
+  <img src="https://img.shields.io/badge/Pinia-3.0.4-FFE56E?style=flat&logo=pinia&logoColor=black" alt="Pinia">
+  <img src="https://img.shields.io/badge/TailwindCSS-3.4.17-38B2AC?style=flat&logo=tailwind-css&logoColor=white" alt="TailwindCSS">
+  <img src="https://img.shields.io/badge/SQLite-07405E?style=flat&logo=sqlite&logoColor=white" alt="SQLite">
+</div>
+
+## 📑 目錄 (Table of Contents)
+
+- [🚀 技術棧 (Tech Stack)](#技術棧-tech-stack)
+- [🔐 環境變數設定 (Environment Variables Setup)](#環境變數設定-environment-variables-setup)
+- [🐳 Docker 一鍵啟動 (Docker Quick Start)](#docker-一鍵啟動-docker-quick-start)
+- [🖥️ 本地開發環境建置 (Local Development Setup)](#本地開發環境建置-local-development-setup)
+- [🛠️ 開發工具與視覺化](#開發工具與視覺化)
+- [🌟 核心功能](#核心功能)
+- [📂 專案結構](#專案結構)
+- [🔗 API 端點 (Django)](#api-端點-django)
 
 ## 🚀 技術棧 (Tech Stack)
 
@@ -82,7 +103,7 @@ docker-compose up --build
 
 ---
 
-##  本地開發環境建置 (Local Development Setup)
+## 🖥️ 本地開發環境建置 (Local Development Setup)
 
 若您偏好在宿主機直接進行開發而非使用 Docker 容器，請參考 [本地開發環境建置指南](LOCAL_DEVELOPMENT.md) 進行配置。
 
@@ -207,13 +228,16 @@ dog-project/
 └── README.md           # 專案主要說明文件
 ```
 
-* **`backend/`**: 包含 Django 的核心配置 (`config/`) 以及 API 應用程式 (`api/`)，定義了 `DogImage` 模型與序列化邏輯。
-* **`frontend/`**: 包含 Vue 應用程式，主要組件位於 `src/components/` (如 `RandomDog.vue`, `FavoriteList.vue`)。
+* **[`backend/`](./backend/)**: 包含 Django 的核心配置 (`config/`) 以及 API 應用程式 (`api/`)，定義了 `DogImage` 模型與序列化邏輯。
+* **[`frontend/`](./frontend/)**: 包含 Vue 應用程式，主要組件位於 `src/components/` (如 `RandomDog.vue`, `FavoriteList.vue`)。
 
 </details>
 
 ---
 ## 🔗 API 端點 (Django) 
+
+<details>
+<summary>點擊展開 API 端點詳細資訊</summary>
 
 ### **認證管理 (Auth)**
 * `POST /api/auth/registration/`: **註冊**。 建立新使用者帳號。
@@ -242,3 +266,7 @@ dog-project/
 * `GET /api/schema/swagger-ui/`: **Swagger UI**。 提供圖形化介面供開發者測試 API。
 * `GET /api/schema/redoc/`: **Redoc UI**。 以另一種閱讀友好的格式呈現 API 文件。
 * `GET /api/schema/`: **OpenAPI Schema**。 獲取 YAML 格式的原始定義檔。
+
+</details>
+
+<p align="right">(<a href="#top">⬆️ 回到頂部</a>)</p>
