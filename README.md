@@ -203,6 +203,7 @@ dog-project/
 ├── .github/            # GitHub Actions CI/CD 配置
 ├── .gitignore          # Git 忽略清單
 ├── docker-compose.yaml # Docker 一鍵啟動配置 (前後端編排)
+├── LOCAL_DEVELOPMENT.md# 本地開發環境建置指南
 └── README.md           # 專案主要說明文件
 ```
 
