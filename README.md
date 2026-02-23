@@ -18,7 +18,7 @@
 * **樣式框架**: **Tailwind CSS 3.4.17**，搭配 **PostCSS** 與 **Autoprefixer** 進行現代化 CSS 開發。
 * **狀態管理**: **Pinia 3.0.4**，用於全域管理使用者登入狀態 (Auth Store) 與收藏資料。
 * **構建工具**: **Vite 7.2.4**，提供極速的開發環境熱重載與優化的生產環境打包。
-* **前端路由**: **Vue Router 4.6.4**，管理「首頁」、「收藏頁」、「個人資料頁」、「登入/註冊」之間的視圖切換，並實作導航守衛 (Navigation Guards) 保護私人頁面。
+* **前端路由**: **Vue Router 4.6.4**，管理「首頁」、「收藏頁」、「個人資料頁」、「登入/註冊」﹑「對話紀錄」之間的視圖切換，並實作導航守衛 (Navigation Guards) 保護私人頁面。
 * **HTTP 客戶端**: **Axios 1.13.5**，負責與外部 Dog CEO API 溝通獲取隨機圖片，並與自定義的 Django 後端 API 進行資料同步。
 
 ### 🐍 後端技術 (Backend)
@@ -31,7 +31,7 @@
 * **認證系統**: **dj-rest-auth** 與 **django-allauth**，提供標準化的會員註冊、登入與 Token 驗證機制。
 * **套件管理**: 使用 **uv** 作為現代化的 Python 套件管理與虛擬環境建置工具。
 * **跨網域處理**: 透過 **django-cors-headers** 解決前後端分離產生的 CORS (跨網域資源共享) 問題。
-* **資料庫**: 使用 **SQLite3**，用於儲存圖片網址 (URL) 與建立時間戳記。
+* **資料庫**: 使用 **SQLite3**，用於儲存圖片網址 (URL) ﹑建立時間戳記與對話紀錄等資訊。
 
 ---
 ## 🔐 環境變數設定 (Environment Variables Setup)
@@ -82,55 +82,9 @@ docker-compose up --build
 
 ---
 
-## 🖥️ 本地開發環境建置 (Local Development Setup)
+##  本地開發環境建置 (Local Development Setup)
 
-若您偏好在宿主機直接進行開發而非使用 Docker 容器，請遵循以下配置說明：
-
-### 1. Python 後端環境 (使用 uv)
-
-本專案採用 **uv** 作為現代化的 Python 套件管理工具，以確保依賴項的高速安裝與版本一致性。
-
-* **安裝 uv**：
-* **Windows (PowerShell)**:
-```powershell
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-
-* **macOS / Linux**:
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-* **同步虛擬環境**：
-進入後端目錄並執行同步指令，此動作會自動建立 `.venv` 並安裝所有必要套件：
-```bash
-cd backend
-uv sync
-```
-
-* **VS Code 解譯器選取 (Interpreter Selection)**：
-1. 於 VS Code 按下 `Ctrl + Shift + P` (或 `Cmd + Shift + P`) 開啟指令面板。
-2. 輸入並選取 **`Python: Select Interpreter`**。
-3. 手動指向專案內的虛擬環境路徑：
-* **Windows**: `./backend/.venv/Scripts/python.exe`
-* **macOS / Linux**: `./backend/.venv/bin/python`
-
-### 2. Vue 前端環境 (使用 npm)
-
-前端開發依賴於 Node.js 環境，請確保您的系統已安裝相應版本。
-
-* **安裝相依套件**：
-進入前端目錄並執行安裝指令：
-```bash
-cd frontend
-npm install
-```
-
-* **啟動開發伺服器**：
-執行以下指令開啟具備熱重載功能的 Vite 服務：
-```bash
-npm run dev
-```
+若您偏好在宿主機直接進行開發而非使用 Docker 容器，請參考 [本地開發環境建置指南](LOCAL_DEVELOPMENT.md) 進行配置。
 
 ---
 ## 🛠️ 開發工具與視覺化
@@ -221,6 +175,9 @@ npm run dev
 ---
 ## 📂 專案結構
 
+<details>
+<summary>點擊展開專案結構</summary>
+
 ```text
 dog-project/
 ├── backend/            # Django 後端程式碼 (Python 3.12 + DRF)
@@ -241,9 +198,7 @@ dog-project/
 │   ├── postcss.config.js  # PostCSS 設定檔
 │   ├── package.json    # 前端相依性與指令配置
 │   └── Dockerfile      # 前端容器定義
-├── images/             # 專案與教學文件的圖片存儲
-│   ├── Readme_images/  # README 專用截圖
-│   └── Notes_images/   # 教學筆記專用圖片
+├── images/             # 專案與教學文件的素材存儲
 ├── 筆記/               # 完整的開發教學文件與 Docker 手冊
 ├── .github/            # GitHub Actions CI/CD 配置
 ├── .gitignore          # Git 忽略清單
@@ -253,6 +208,8 @@ dog-project/
 
 * **`backend/`**: 包含 Django 的核心配置 (`config/`) 以及 API 應用程式 (`api/`)，定義了 `DogImage` 模型與序列化邏輯。
 * **`frontend/`**: 包含 Vue 應用程式，主要組件位於 `src/components/` (如 `RandomDog.vue`, `FavoriteList.vue`)。
+
+</details>
 
 ---
 ## 🔗 API 端點 (Django) 
@@ -274,7 +231,6 @@ dog-project/
 
 ### **AI 聊天功能 (Chat)**
 * `POST /api/chat/ask/`: **發送對話**。 接收使用者輸入並透過 Google Gemini 模型產生回應。
-
 
 ### **API 互動式文件 (OpenAPI)**
 
